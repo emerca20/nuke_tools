@@ -1,0 +1,293 @@
+push $cut_paste_input
+Group {
+	name Group23
+	label color_dilate
+	selected true
+	xpos -40
+	ypos -256
+	addUserKnob {20 User}
+	blur_size 10.6
+	addUserKnob {3 quality}
+	quality 15
+}
+	BackdropNode {
+		inputs 0
+		name BackdropNode1
+		tile_color 0x5f5f6eff
+		label <center>1
+		note_font "Bitstream Vera Sans Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold"
+		note_font_size 40
+		xpos 780
+		ypos 208
+		bdwidth 209
+		bdheight 727
+	}
+	BackdropNode {
+		inputs 0
+		name BackdropNode2
+		tile_color 0x5f5f6eff
+		label <center>2
+		note_font "Bitstream Vera Sans Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold Bold"
+		note_font_size 40
+		xpos 1061
+		ypos 205
+		bdwidth 209
+		bdheight 727
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote26
+		label invert_matte
+		xpos 455
+		ypos -455
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote27
+		label erode_matte
+		xpos 455
+		ypos -543
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote25
+		label expand_matte
+		xpos 456
+		ypos -379
+	}
+	Input {
+		inputs 0
+		name mask
+		xpos 351
+		ypos -635
+		number 1
+	}
+	FilterErode {
+		channels alpha
+		size 3.4
+		name FilterErode7
+		selected true
+		xpos 351
+		ypos -547
+	}
+	Invert {
+		channels alpha
+		name Invert2
+		xpos 351
+		ypos -463
+	}
+	Grade {
+		channels alpha
+		name Grade24
+		xpos 351
+		ypos -387
+	}
+	Grade {
+		channels alpha
+		whitepoint 0.5
+		name Grade25
+		xpos 351
+		ypos -304
+	}
+	Dot {
+		name Dot69
+		xpos 385
+		ypos -21
+	}
+	Input {
+		inputs 0
+		name RGBs
+		xpos 668
+		ypos -632
+	}
+	Dot {
+		name Dot67
+		xpos 702
+		ypos -377
+	}
+set N3db0a7b0 [stack 0]
+	Dot {
+		name Dot68
+		xpos 856
+		ypos -377
+	}
+	AddChannels {
+		channels alpha
+		name AddChannels1
+		xpos 822
+		ypos -211
+	}
+push $N3db0a7b0
+	Shuffle {
+		alpha white
+		name Shuffle6
+		label "alpha==\[value this.knob.alpha]"
+		xpos 668
+		ypos -301
+	}
+	Crop {
+		box {{"\[value this.parent.\[value this.input.knob.name].bbox.x]"} {"\[value this.parent.\[value this.input.knob.name].bbox.y]"} {"\[value this.parent.\[value this.input.knob.name].bbox.r]"} {"\[value this.parent.\[value this.input.knob.name].bbox.t]"}}
+		name Crop1
+		xpos 668
+		ypos -208
+	}
+	Switch {
+		inputs 2
+		which 1
+		name Switch1
+		xpos 668
+		ypos -109
+	}
+	Merge2 {
+		inputs 2
+		operation stencil
+		name Merge34
+		xpos 668
+		ypos -25
+	}
+	Transform {
+		center {1024 484}
+		filter Impulse
+		name Transform1
+		xpos 668
+		ypos 63
+	}
+set N3c093020 [stack 0]
+	Dot {
+		name Dot1
+		xpos 702
+		ypos 150
+	}
+set N10834ed0 [stack 0]
+	Dot {
+		name Dot22
+		xpos 702
+		ypos 751
+	}
+push $N10834ed0
+	Dot {
+		name Dot20
+		xpos 874
+		ypos 150
+	}
+set N3cba2b10 [stack 0]
+	Blur {
+		channels rgba
+		size {{"\[value parent.blur_size.w]/\[value parent.quality]*0"} {"\[value parent.blur_size.h]/\[value parent.quality]*0"}}
+		name Blur1
+		xpos 840
+		ypos 285
+	}
+	Unpremult {
+		name Unpremult1
+		xpos 840
+		ypos 391
+	}
+	Expression {
+		channel3 alpha
+		expr3 "step(0, a)"
+		name Expression1
+		label "(\[value this.knob.channel3])"
+		xpos 840
+		ypos 501
+	}
+	FilterErode {
+		channels alpha
+		size {{"max(\[value parent.blur_size.w]/\[value parent.quality]*0/2, 1)"} {"max(\[value parent.blur_size.h]/\[value parent.quality]*0/2, 1)"}}
+		name FilterErode1
+		xpos 840
+		ypos 621
+	}
+	Premult {
+		name Premult2
+		xpos 840
+		ypos 742
+	}
+	Merge2 {
+		inputs 2
+		name Merge10
+		xpos 840
+		ypos 855
+	}
+set N3cd59d80 [stack 0]
+push $N3cba2b10
+	Blur {
+		channels rgba
+		size {{"\[value parent.blur_size.w]/\[value parent.quality]*1"} {"\[value parent.blur_size.h]/\[value parent.quality]*1"}}
+		name Blur2
+		xpos 1125
+		ypos 284
+	}
+	Unpremult {
+		name Unpremult2
+		xpos 1125
+		ypos 394
+	}
+	Expression {
+		channel3 alpha
+		expr3 "step(0, a)"
+		name Expression2
+		label "(\[value this.knob.channel3])"
+		xpos 1125
+		ypos 501
+	}
+	FilterErode {
+		channels alpha
+		size {{"max(\[value parent.blur_size.w]/\[value parent.quality]*1/2, 1)"} {"max(\[value parent.blur_size.w]/\[value parent.quality]*1/2, 1)"}}
+		name FilterErode2
+		xpos 1125
+		ypos 621
+	}
+	Premult {
+		name Premult3
+		xpos 1125
+		ypos 741
+	}
+	Merge2 {
+		inputs 2
+		name Merge11
+		xpos 1125
+		ypos 855
+	}
+set N3da61180 [stack 0]
+	Transform {
+		rotate {{parent.Transform1.rotate}}
+		center {1024 484}
+		invert_matrix {{1-parent.Transform1.invert_matrix}}
+		name Transform2
+		xpos 1125
+		ypos 1026
+		disable {{parent.Transform1.disable}}
+	}
+	Remove {
+		channels rgb
+		name Remove1
+		label "(\[value this.knob.channels])"
+		xpos 1125
+		ypos 1116
+	}
+	Output {
+		name Output1
+		xpos 1125
+		ypos 1226
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote28
+		label is_premultiplied
+		xpos 770
+		ypos -109
+	}
+push $N3da61180
+push $N3cd59d80
+push $N3c093020
+	Viewer {
+		inputs 3
+		frame_range 1007-1094
+		center_fstop 0
+		viewerProcess ACES_LUT
+		name Viewer1
+		xpos 803
+		ypos 1079
+	}
+end_group
