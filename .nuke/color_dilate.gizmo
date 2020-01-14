@@ -6,6 +6,7 @@ Group {
 	xpos -40
 	ypos -256
 	addUserKnob {20 User}
+	addUserKnob {14 blur_size R 0 100}
 	blur_size 10.6
 	addUserKnob {3 quality}
 	quality 15
