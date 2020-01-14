@@ -2,8 +2,6 @@ set cut_paste_input [stack 0]
 version 10.0 v5
 push $cut_paste_input
 Group {
- name Group3
- selected true
 	name Group3
 	label toe
 	selected true
