@@ -113,3 +113,13 @@ push $N9e732a80
 		Achannels rgb
 		Bchannels rgb
 		output rgb
+		name Merge14
+		xpos 710
+		ypos 1670
+	}
+	Output {
+		name Output1
+		xpos 710
+		ypos 1862
+	}
+end_group
