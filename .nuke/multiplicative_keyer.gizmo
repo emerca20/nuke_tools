@@ -1,0 +1,115 @@
+push $cut_paste_input
+Group {
+	name Group9
+	label multiplicative_keyer
+	selected true
+	xpos 110
+	ypos -256
+}
+	Input {
+		inputs 0
+		name background
+		xpos 260
+		ypos 206
+	}
+	Dot {
+		name Dot55
+		xpos 294
+		ypos 1482
+	}
+	Input {
+		inputs 0
+		name foreground
+		xpos 560
+		ypos 206
+		number 2
+	}
+	Dot {
+		name Dot2
+		xpos 594
+		ypos 402
+	}
+	Input {
+		inputs 0
+		name cleanPlate
+		xpos 860
+		ypos 206
+		number 1
+	}
+	Dot {
+		name Dot3
+		xpos 894
+		ypos 402
+	}
+	Merge2 {
+		inputs 2
+		operation divide
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge12
+		xpos 710
+		ypos 590
+	}
+	Dot {
+		name Dot1
+		xpos 744
+		ypos 786
+	}
+set N9e732a80 [stack 0]
+	Clamp {
+		channels rgb
+		minimum -1000
+		name Clamp27
+		label "\[value this.knob.minimum] < rgb < \[value this.knob.maximum]"
+		xpos 560
+		ypos 968
+	}
+	Gamma {
+		channels rgb
+		name Gamma1
+		xpos 560
+		ypos 1118
+	}
+	Dot {
+		name Dot4
+		xpos 594
+		ypos 1290
+	}
+push $N9e732a80
+	Clamp {
+		channels rgb
+		minimum 1
+		maximum 10000
+		name Clamp28
+		label "\[value this.knob.minimum] < rgb < \[value this.knob.maximum]"
+		xpos 860
+		ypos 968
+	}
+	Gamma {
+		channels rgb
+		name Gamma2
+		xpos 860
+		ypos 1118
+	}
+	Dot {
+		name Dot5
+		xpos 894
+		ypos 1290
+	}
+	Merge2 {
+		inputs 2
+		operation multiply
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge13
+		xpos 710
+		ypos 1478
+	}
+	Merge2 {
+		inputs 2
+		operation multiply
+		Achannels rgb
+		Bchannels rgb
+		output rgb
