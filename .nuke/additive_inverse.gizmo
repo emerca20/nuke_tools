@@ -1,0 +1,1 @@
+	addUserKnob {41 unpremult l "(un)premult by" t "Image is divided by this channel before being processed, and multiplied again afterwards.  This can imporove color corrections of anti-aliased edges." T Unpremult1.alpha}
