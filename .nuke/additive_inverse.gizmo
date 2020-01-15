@@ -1,8 +1,0 @@
-	Dot {
-		name Dot1
-		xpos 444
-		ypos -126
-	}
-set N75a07b70 [stack 0]
-	Unpremult {
-		channels all
