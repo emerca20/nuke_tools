@@ -1,0 +1,41 @@
+push $cut_paste_input
+Group {
+	name Group14
+	label I/O_graph
+	selected true
+	xpos 410
+	ypos -256
+}
+	Input {
+		inputs 0
+		name Input1
+		xpos -417
+		ypos 361
+	}
+	Expression {
+		temp_name0 rowIndex
+		temp_expr0 1
+		expr0 "(floor(r(x, rowIndex)*height))==y?1:0"
+		expr1 "(floor(g(x, rowIndex)*height))==y?1:0"
+		expr2 "(floor(b(x, rowIndex)*height))==y?1:0"
+		name Expression10
+		xpos -417
+		ypos 464
+	}
+set N3cdc1690 [stack 0]
+	Output {
+		name Output1
+		xpos -417
+		ypos 564
+	}
+push $N3cdc1690
+	Viewer {
+		frame_range 1007-1137
+		center_fstop 0
+		viewerProcess ACES_LUT
+		name Viewer1
+		selected true
+		xpos -539
+		ypos 520
+	}
+end_group
