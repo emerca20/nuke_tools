@@ -1,0 +1,287 @@
+set cut_paste_input [stack 0]
+version 10.0 v5
+push $cut_paste_input
+Group {
+	name Group3
+	label toe
+	selected true
+	xpos -190
+	ypos -256
+}
+StickyNote {
+	inputs 0
+	name StickyNote7
+	label softness
+	xpos -40
+	ypos 1099
+}
+StickyNote {
+	inputs 0
+	name StickyNote6
+	label lift
+	xpos 84
+	ypos 585
+}
+StickyNote {
+	inputs 0
+	name StickyNote5
+	label centerPoint
+	xpos 84
+	ypos 727
+}
+Input {
+	inputs 0
+	name Input1
+	xpos 420
+	ypos 377
+}
+Dot {
+	name Dot21
+	xpos 454
+	ypos 468
+}
+set N3c0579c0 [stack 0]
+Shuffle {
+	red black
+	green black
+	blue black
+	alpha black
+	name Shuffle23
+	xpos 265
+	ypos 615
+}
+set N3da506b0 [stack 0]
+Dot {
+	name Dot17
+	xpos 299
+	ypos 764
+}
+Add {
+	value 0.675
+	name Add4
+	xpos 84
+	ypos 754
+}
+set N3c3025c0 [stack 0]
+push $N3c0579c0
+Dot {
+	name Dot20
+	xpos 454
+	ypos 1091
+}
+set N3c309e10 [stack 0]
+MergeExpression {
+	inputs 2
+	expr0 Br<Ar?1:0
+	expr1 Bg<Ag?1:0
+	expr2 Bb<Ab?1:0
+	name MergeExpression2
+	xpos 84
+	ypos 1087
+}
+set N3d74ad10 [stack 0]
+push $N3c0579c0
+Dot {
+	name Dot23
+	xpos -240
+	ypos 468
+}
+set N3c36ac60 [stack 0]
+Dot {
+	name Dot25
+	xpos -407
+	ypos 468
+}
+Dot {
+	name Dot24
+	xpos -407
+	ypos 1343
+}
+push $N3da506b0
+Add {
+	value 0.04
+	name Add5
+	xpos 84
+	ypos 609
+}
+Dot {
+	name Dot18
+	xpos -97
+	ypos 619
+}
+set N3cc07420 [stack 0]
+Dot {
+	name Dot27
+	xpos -336
+	ypos 619
+}
+Dot {
+	name Dot26
+	xpos -336
+	ypos 1340
+}
+push $N3c3025c0
+push $N3cc07420
+Merge2 {
+	inputs 2
+	operation divide
+	name Merge37
+	xpos -131
+	ypos 899
+}
+Add {
+	value -1
+	name Add7
+	xpos -131
+	ypos 988
+}
+Multiply {
+	value 0
+	name Multiply2
+	xpos -131
+	ypos 1093
+}
+Add {
+	value 1
+	name Add6
+	xpos -131
+	ypos 1213
+}
+push $N3c36ac60
+push $N3c3025c0
+Merge2 {
+	inputs 2
+	operation divide
+	name Merge36
+	xpos -274
+	ypos 760
+}
+Invert {
+	name Invert3
+	xpos -274
+	ypos 894
+}
+MergeExpression {
+	inputs 2
+	expr0 "pow(Br, Ar)"
+	expr1 "pow(Bg, Ag)"
+	expr2 "pow(Bb, Ab)"
+	channel3 alpha
+	expr3 "pow(Ba, Aa)"
+	name MergeExpression3
+	xpos -274
+	ypos 1338
+}
+Merge2 {
+	inputs 2
+	operation multiply
+	name Merge42
+	xpos -274
+	ypos 1469
+}
+Merge2 {
+	inputs 2
+	operation plus
+	name Merge38
+	xpos -274
+	ypos 1583
+}
+Merge2 {
+	inputs 2
+	operation multiply
+	name Merge39
+	xpos 84
+	ypos 1583
+}
+push $N3d74ad10
+Invert {
+	name Invert4
+	xpos 235
+	ypos 1232
+}
+push $N3c309e10
+Merge2 {
+	inputs 2
+	operation multiply
+	name Merge40
+	xpos 420
+	ypos 1238
+}
+Merge2 {
+	inputs 2
+	operation plus
+	name Merge41
+	xpos 420
+	ypos 1583
+}
+Output {
+	name Output1
+	xpos 420
+	ypos 1683
+}
+end_group
+push $cut_paste_input
+Group {
+	name Group21
+	label lift
+	selected true
+	xpos -190
+	ypos 32
+}
+Input {
+	inputs 0
+	name Input1
+	xpos -500
+	ypos 332
+}
+Dot {
+	name Dot17
+	xpos -466
+	ypos 445
+}
+set N3bf4abd0 [stack 0]
+Invert {
+	channels rgb
+	name Invert1
+	xpos -686
+	ypos 545
+}
+Multiply {
+	channels rgb
+	value 0
+	name Multiply1
+	xpos -686
+	ypos 630
+}
+push $N3bf4abd0
+Merge2 {
+	inputs 2
+	operation plus
+	Achannels rgb
+	Bchannels rgb
+	output rgb
+	name Merge30
+	xpos -500
+	ypos 772
+}
+ Output {
+	name Output1
+	xpos -500
+	ypos 872
+}
+StickyNote {
+	inputs 0
+	name StickyNote1
+	label lift
+	xpos -586
+	ypos 629
+ }
+end_group
+StickyNote {
+	inputs 0
+	name StickyNote44
+	label "<img src=\":qrc/images/ToolbarImage.png\"></img>\n<img src=\":qrc/images/ToolbarColor.png\"></img>\n<img src=\":qrc/images/ToolbarFilter.png\"></img>\n<img src=\":qrc/images/ToolbarKeyer.png\"></img>\n<img src=\":qrc/images/ToolbarMerge.png\"></img>"
+	selected true
+	xpos -340
+	ypos -252
+}
