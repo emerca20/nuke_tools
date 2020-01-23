@@ -1,0 +1,394 @@
+push $cut_paste_input
+Group {
+	name Group2
+	label screen_leveling
+	selected true
+	xpos 560
+	ypos -256
+	addUserKnob {20 User}
+	addUserKnob {18 gamma l Gamma R 0.2 4}
+	gamma 1
+	addUserKnob {6 gamma_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+	addUserKnob {6 gamma_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+	addUserKnob {20 keylight l Keylight n 1}
+	keylight 0
+	addUserKnob {41 screenColour l "Screen Colour" T Keylight1.screenColour}
+	addUserKnob {41 screenGain l "Screen Gain" T Keylight1.screenGain}
+	addUserKnob {41 screenBalance l "Screen Balance" T Keylight1.screenBalance}
+	addUserKnob {41 alphaBias l "Alpha Bias" T Keylight1.alphaBias}
+	addUserKnob {20 endGroup n -1}
+	addUserKnob {26 "" +STARTLINE}
+	addUserKnob {41 maskChannel l mask t "Use this channel from the original input to mix the output with the original input." T Keymix1.maskChannel}
+	addUserKnob {6 inject t "Copy mask to the output Mask.a channel." -STARTLINE}
+	addUserKnob {6 invert t "Invert the use of the mask channel." -STARTLINE}
+	addUserKnob {6 fringe t "Use 4*(1-mask)*mask to mix." -STARTLINE}
+}
+	StickyNote {
+		inputs 0
+		name StickyNote1
+		label screenColor
+		xpos 35
+		ypos -274
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote5
+		label fringe
+		xpos 1085
+		ypos 1454
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote4
+		label invert
+		xpos 1085
+		ypos 1262
+	}
+	Input {
+		inputs 0
+		name mask
+		xpos 1010
+		ypos -826
+		number 2
+	}
+	Invert {
+		channels {none none none rgba.alpha}
+		name Invert1
+		xpos 1010
+		ypos 1280
+		disable {{"1-\[value parent.knob.invert]"}}
+	}
+	Expression {
+		channel0 none
+		channel1 none
+		channel2 none
+		expr3 4*(1-a)*a
+		name Expression1
+		label "\[value this.knob.expr3]"
+		xpos 1010
+		ypos 1472
+		disable {{"1-\[value parent.knob.fringe]"}}
+	}
+	Dot {
+		name Dot14
+		xpos 1044
+		ypos 1674
+	}
+set N66e89b90 [stack 0]
+push $N66e89b90
+	Input {
+		inputs 0
+		name backing_defects
+		xpos 35
+		ypos -826
+		number 1
+	}
+	Dot {
+		name Dot6
+		xpos 69
+		ypos -630
+	}
+set N79b110f0 [stack 0]
+	Dot {
+		name Dot1
+		xpos -81
+		ypos -438
+	}
+set N7961b1e0 [stack 0]
+push $N7961b1e0
+	Grade {
+		white 0
+		add {{parent.Keylight1.screenColour.r} {parent.Keylight1.screenColour.g} {parent.Keylight1.screenColour.b} 0}
+		name Grade1
+		xpos -40
+		ypos -250
+	}
+	Merge2 {
+		inputs 2
+		operation minus
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge1
+		xpos -115
+		ypos -58
+	}
+	Dot {
+		name Dot7
+		xpos -81
+		ypos 714
+	}
+	Input {
+		inputs 0
+		name source
+		xpos 710
+		ypos -826
+	}
+	Dot {
+		name Dot8
+		xpos 744
+		ypos -630
+	}
+set Nb47ff360 [stack 0]
+	Dot {
+		name Dot2
+		xpos 519
+		ypos -438
+	}
+set N76f30880 [stack 0]
+push $N76f30880
+	OFXuk.co.thefoundry.keylight.keylight_v201 {
+		show "Screen Matte"
+		unPreMultiply false
+		screenColour {{parent.Keylight1.screenColour.r} {parent.Keylight1.screenColour.g} {parent.Keylight1.screenColour.b}}
+		screenGain {{parent.Keylight1.screenGain}}
+		screenBalance {{parent.Keylight1.screenBalance}}
+		alphaBias {{parent.Keylight1.alphaBias.r} {parent.Keylight1.alphaBias.g} {parent.Keylight1.alphaBias.b}}
+		despillBias {0.5 0.5 0.5}
+		gangBiases true
+		preBlur 0
+		"Screen Matte" 0
+		screenClipMin 0
+		screenClipMax 1
+		screenClipRollback 0
+		screenGrowShrink 0
+		screenSoftness 0
+		screenDespotBlack 0
+		screenDespotWhite 0
+		screenReplaceMethod "Soft Colour"
+		screenReplaceColour {0.5 0.5 0.5}
+		Tuning 0
+		midPoint 0.5
+		lowGain 1
+		midGain 1
+		highGain 1
+		"Inside Mask" 0
+		sourceAlphaHandling Ignore
+		insideReplaceMethod "Soft Colour"
+		insideReplaceColour {0.5 0.5 0.5}
+		Crops 0
+		SourceXMethod Colour
+		SourceYMethod Colour
+		SourceEdgeColour 0
+		SourceCropL 0
+		SourceCropR 1
+		SourceCropB 0
+		SourceCropT 1
+		balanceSet true
+		insideComponent None
+		outsideComponent None
+		cacheBreaker true
+		name Keylight2
+		label "\[value this.knob.show]"
+		xpos 560
+		ypos -256
+	}
+	Merge2 {
+		inputs 2
+		operation multiply
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge3
+		xpos 485
+		ypos -58
+	}
+	Dot {
+		name Dot5
+		xpos 519
+		ypos 138
+	}
+push $N79b110f0
+	Dot {
+	name Dot3
+	xpos 219
+	ypos -438
+	}
+set N3e3866a0 [stack 0]
+push $N3e3866a0
+	OFXuk.co.thefoundry.keylight.keylight_v201 {
+		show "Screen Matte"
+		unPreMultiply false
+		screenColour {0 0 0}
+		screenGain 1
+		screenBalance 0.5
+		alphaBias {0.5 0.5 0.5}
+		despillBias {0.5 0.5 0.5}
+		gangBiases true
+		preBlur 0
+		"Screen Matte" 0
+		screenClipMin 0
+		screenClipMax 1
+		screenClipRollback 0
+		screenGrowShrink 0
+		screenSoftness 0
+		screenDespotBlack 0
+		screenDespotWhite 0
+		screenReplaceMethod "Soft Colour"
+		screenReplaceColour {0.5 0.5 0.5}
+		Tuning 0
+		midPoint 0.5
+		lowGain 1
+		midGain 1
+		highGain 1
+		"Inside Mask" 0
+		sourceAlphaHandling Ignore
+		insideReplaceMethod "Soft Colour"
+		insideReplaceColour {0.5 0.5 0.5}
+		Crops 0
+		SourceXMethod Colour
+		SourceYMethod Colour
+		SourceEdgeColour 0
+		SourceCropL 0
+		SourceCropR 1
+		SourceCropB 0
+		SourceCropT 1
+		balanceSet false
+		insideComponent None
+		outsideComponent None
+		cacheBreaker true
+		name Keylight1
+		label "\[value this.knob.show]"
+		xpos 260
+		ypos -256
+	}
+	Merge2 {
+		inputs 2
+		operation multiply
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge2
+		xpos 185
+		ypos -58
+	}
+	Dot {
+		name Dot4
+		xpos 219
+		ypos 138
+	}
+	Merge2 {
+		inputs 2
+		operation divide
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge4
+		xpos 335
+		ypos 326
+	}
+	Gamma {
+		channels rgb
+		value {{parent.gamma.r} {parent.gamma.g} {parent.gamma.b} 0}
+		name Gamma1
+		xpos 335
+		ypos 518
+	}
+	Dot {
+		name Dot12
+		xpos 369
+		ypos 714
+	}
+	Merge2 {
+		inputs 2
+		operation multiply
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge5
+		xpos 110
+		ypos 902
+	}
+	Dot {
+		name Dot9
+		xpos 144
+		ypos 1098
+	}
+push $Nb47ff360
+	Dot {
+		name Dot10
+		xpos 744
+		ypos 1098
+	}
+set N7811df40 [stack 0]
+	Merge2 {
+		inputs 2
+		operation plus
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge6
+		xpos 410
+		ypos 1286
+	}
+	Dot {
+		name Dot11
+		xpos 444
+		ypos 1482
+	}
+set N72438bd0 [stack 0]
+push $N7811df40
+	Keymix {
+		inputs 3
+		channels rgb
+		maskChannel -rgba.alpha
+		name Keymix1
+		xpos 710
+		ypos 1670
+	}
+	Dot {
+		name Dot15
+		xpos 744
+		ypos 1866
+	}
+push $N72438bd0
+	Dot {
+		name Dot13
+		xpos 444
+		ypos 1866
+	}
+	Switch {
+		inputs 2
+		which {{parent.maskChannel!=0}}
+		name Switch1
+		xpos 560
+		ypos 2054
+	}
+	ShuffleCopy {
+		inputs 2
+		alpha alpha2
+		black alpha
+		out2 mask
+		name ShuffleCopy1
+		label "\[value this.knob.out2]"
+		xpos 560
+		ypos 2240
+		disable {{1-parent.inject}}
+	}
+	Output {
+		name Output1
+		xpos 560
+		ypos 2438
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote2
+		label inject
+		xpos 635
+		ypos 2222
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote3
+		label mask
+		xpos 635
+		ypos 2030
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote6
+		label gamma
+		xpos 410
+		ypos 494
+	}
+end_group
