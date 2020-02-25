@@ -1,0 +1,216 @@
+set cut_paste_input [stack 0]
+version 10.0 v5
+push $cut_paste_input
+Group {
+	name Group6
+	selected true
+	xpos 120
+	ypos -82
+	addUserKnob {20 User}
+	addUserKnob {22 update_OLD T "thisGroup = nuke.thisNode()\nthisGroup.begin()\n\ni = thisGroup.inputs()\nmatteLayers=\[]\n\nif thisGroup.inputs() == thisGroup.maxInputs():\n\txOffset = i * 256\n\n\tbackdrop=nuke.nodes.BackdropNode()\n\tbackdrop.knob('bdwidth').setValue(224)\n\tbackdrop.knob('bdheight').setValue(374)\n\tbackdrop.knob('xpos').setValue(0+xOffset)\n\tbackdrop.knob('ypos').setValue(0)\n\n\thorizontalCenter=(backdrop.knob('bdwidth').value()/2)\n\tdivisions=backdrop.knob('bdheight').value()/6\n\n\tinput=nuke.nodes.Input()\n\tinput.knob('xpos').setValue((horizontalCenter-(input.screenWidth()/2))+xOffset)\n\tinput.knob('ypos').setValue((divisions*1)-(input.screenHeight()/2))\n\n\tdot1=nuke.nodes.Dot()\n\tdot1.setInput(0,input)\n\tdot1.knob('xpos').setValue((horizontalCenter-(dot1.screenWidth()/2))+xOffset)\n\tdot1.knob('ypos').setValue((divisions*2)-(dot1.screenHeight()/2))\n\t\n\tremove=nuke.nodes.Remove()\n\tremove.setInput(0,dot1)\n\tremove.knob('xpos').setValue((horizontalCenter-(remove.screenWidth()/2))+xOffset)\n\tremove.knob('ypos').setValue((divisions*3)-(remove.screenHeight()/2))\n\n\tdot2=nuke.nodes.Dot()\n\tdot2.setInput(0,dot1)\n\tdot2.knob('xpos').setValue((((horizontalCenter-(remove.screenWidth()/2))/2)-(dot2.screenWidth()/2))+xOffset)\n\tdot2.knob('ypos').setValue(remove.knob('ypos').value()+(remove.screenHeight()/2))\n\n\tcopy=nuke.nodes.Copy()\n\tcopy.knob('from0').setValue('rgba.red')\n\tcopy.knob('from1').setValue('rgba.green')\n\tcopy.knob('from2').setValue('rgba.blue')\n\tcopy.knob('to0').setValue('rgba.red')\n\tcopy.knob('to1').setValue('rgba.green')\n\tcopy.knob('to2').setValue('rgba.blue')\n\tcopy.setInput(1,dot2)\n\tcopy.setInput(0,remove)\n\tcopy.knob('xpos').setValue((horizontalCenter-(copy.screenWidth()/2))+xOffset)\n\tcopy.knob('ypos').setValue((divisions*4)-(copy.screenHeight()/2))\n\n\tdot3=nuke.nodes.Dot()\n\tdot3.setInput(0,copy)\n\tdot3.knob('xpos').setValue((horizontalCenter-(dot3.screenWidth()/2)+xOffset))\n\tdot3.knob('ypos').setValue(((divisions*5)-(dot3.screenHeight()/2))+(i*40))\n\n\tnewLayer=nuke.Layer('matteLayer_'+str(i).rjust(2,'0'), \['red', 'green', 'blue'])\n\tmatteLayers.append(newLayer.name())\n\n\tmerge=nuke.nodes.Merge2()\n\tmerge.knob('operation').setValue('copy')\n\tmerge.knob('Achannels').setValue('rgb')\n\tmerge.knob('Bchannels').setValue('none')\n\tmerge.knob('output').setValue(newLayer.name())\n\tmerge.setInput(1,dot3)\n\ttry:\n\t\tmerge.setInput(0,addLayer)\n\texcept:\n\t\tmerge.setInput(0,nuke.toNode('source'))\n\tmerge.knob('xpos').setValue(72)\n\tmerge.knob('ypos').setValue(dot3.knob('ypos').value())\n\n\taddLayer=merge\n\n\t#-----------------------------------------#\n\t#--- Update Top Level Knobs ---#\n\tnuke.toNode('NoOp_output').setInput(0,merge)\n\tnuke.toNode('Switch_layers').setInput(i-1, dot3)\n\tthisGroup.knob('overlay_layer').setValues(matteLayers)\n\nthisGroup.end()" +STARTLINE}
+	addUserKnob {22 update T "thisGroup = nuke.thisNode()\nthisGroup.begin()\n\ni = thisGroup.inputs()\n\nif thisGroup.inputs() == thisGroup.maxInputs():\n\txOffset = i * 256\n\n\tbackdrop=nuke.nodes.BackdropNode()\n\tbackdrop.knob('bdwidth').setValue(224)\n\tbackdrop.knob('bdheight').setValue(374)\n\tbackdrop.knob('xpos').setValue(0+xOffset)\n\tbackdrop.knob('ypos').setValue(0)\n\n\thorizontalCenter=(backdrop.knob('bdwidth').value()/2)\n\tdivisions=backdrop.knob('bdheight').value()/6\n\n\tinput=nuke.nodes.Input()\n\tinput.knob('xpos').setValue((horizontalCenter-(input.screenWidth()/2))+xOffset)\n\tinput.knob('ypos').setValue((divisions*1)-(input.screenHeight()/2))\n\n\tdot1=nuke.nodes.Dot()\n\tdot1.setInput(0,input)\n\tdot1.knob('xpos').setValue((horizontalCenter-(dot1.screenWidth()/2))+xOffset)\n\tdot1.knob('ypos').setValue((divisions*2)-(dot1.screenHeight()/2))\n\t\n\tremove=nuke.nodes.Remove()\n\tremove.setInput(0,dot1)\n\tremove.knob('xpos').setValue((horizontalCenter-(remove.screenWidth()/2))+xOffset)\n\tremove.knob('ypos').setValue((divisions*3)-(remove.screenHeight()/2))\n\n\tdot2=nuke.nodes.Dot()\n\tdot2.setInput(0,dot1)\n\tdot2.knob('xpos').setValue((((horizontalCenter-(remove.screenWidth()/2))/2)-(dot2.screenWidth()/2))+xOffset)\n\tdot2.knob('ypos').setValue(remove.knob('ypos').value()+(remove.screenHeight()/2))\n\n\tcopy=nuke.nodes.Copy()\n\tcopy.knob('from0').setValue('rgba.red')\n\tcopy.knob('from1').setValue('rgba.green')\n\tcopy.knob('from2').setValue('rgba.blue')\n\tcopy.knob('to0').setValue('rgba.red')\n\tcopy.knob('to1').setValue('rgba.green')\n\tcopy.knob('to2').setValue('rgba.blue')\n\tcopy.setInput(1,dot2)\n\tcopy.setInput(0,remove)\n\tcopy.knob('xpos').setValue((horizontalCenter-(copy.screenWidth()/2))+xOffset)\n\tcopy.knob('ypos').setValue((divisions*4)-(copy.screenHeight()/2))\n\n\tdot3=nuke.nodes.Dot()\n\tdot3.setInput(0,copy)\n\tdot3.knob('xpos').setValue((horizontalCenter-(dot3.screenWidth()/2)+xOffset))\n\tdot3.knob('ypos').setValue(((divisions*5)-(dot3.screenHeight()/2))+(i*40))\n\n\tmatteLayers=\['matteLayer_01']\n\tfor INPUT in range(1, thisGroup.inputs()):\n\t\tprint(thisGroup.input(INPUT).knob('name').value())\n\t\t\n\t\tnewLayer=nuke.Layer('matteLayer_'+str(INPUT+1).rjust(2,'0'), \['red', 'green', 'blue'])\n\t\tmatteLayers.append(newLayer.name())\n\t\n\t\tmerge=nuke.nodes.Merge2()\n\t\tmerge.knob('operation').setValue('copy')\n\t\tmerge.knob('Achannels').setValue('rgb')\n\t\tmerge.knob('Bchannels').setValue('none')\n\t\tmerge.knob('output').setValue(newLayer.name())\n\t\tmerge.setInput(1,dot3)\n\t\ttry:\n\t\t\tmerge.setInput(0,addLayer)\n\t\texcept:\n\t\t\tmerge.setInput(0,nuke.toNode('Merge1'))\n\t\tmerge.knob('xpos').setValue(72)\n\t\tmerge.knob('ypos').setValue(dot3.knob('ypos').value())\n\n\t\taddLayer=merge\n\n\t\t#-----------------------------------------#\n\t\t#--- Update Top Level Knobs ---#\n\t\tnuke.toNode('NoOp_output').setInput(0,merge)\n\t\tnuke.toNode('Switch_layers').setInput(i-1, dot3)\n\t\tthisGroup.knob('overlay_layer').setValues(matteLayers)\n\nthisGroup.end()" +STARTLINE}
+	addUserKnob {22 update_knobs -STARTLINE T "thisGroup = nuke.thisNode()\n\ni=1\nfor node in thisGroup.nodes():\n\tif node.Class() == \"Copy\":\n\t\tbegin=nuke.Tab_Knob('matteLayer_'+str(i).rjust(2,'0'), 'matteLayer_'+str(i).rjust(2,'0'), 1)\n\t\tthisGroup.addKnob(begin)\n\n\t\ttoRedKnob=nuke.Link_Knob('red'+str(i).rjust(2,'0'))\n\t\ttoRedKnob.setLabel(\"<font color='#ff6666'>red</font>\")\n\t\ttoRedKnob.setLink(node.fullName()+'.'+node.knob('from0').name())\n\n\t\ttoGreenKnob=nuke.Link_Knob('green'+str(i).rjust(2,'0'))\n\t\ttoGreenKnob.setLabel(\"<font color='#66ff66'>green</font>\")\n\t\ttoGreenKnob.setLink(node.fullName()+'.'+node.knob('from1').name())\n\n\t\ttoBlueKnob=nuke.Link_Knob('blue'+str(i).rjust(2,'0'))\n\t\ttoBlueKnob.setLabel(\"<font color='#6666ff'>blue</font>\")\n\t\ttoBlueKnob.setLink(node.fullName()+'.'+node.knob('from2').name())\n\n\t\tthisGroup.addKnob(toRedKnob)\n\t\tthisGroup.addKnob(toGreenKnob)\n\t\tthisGroup.addKnob(toBlueKnob)\n\n\t\tend=nuke.Tab_Knob(begin.name(), begin.label(), -1)\n\t\tthisGroup.addKnob(end)\n\t\t\n\t\ti=i+1 #--- incrementor"}
+	addUserKnob {4 show l view t "What to render into the output." M {Output LayerContactSheet Overlay "" ""}}
+	addUserKnob {26 ""}
+	addUserKnob {4 overlay_layer M {matteLayer_01 matteLayer_02 matteLayer_03}}
+	addUserKnob {18 opacity l overlay_opacity}
+	opacity {1 1 1}
+	addUserKnob {6 opacity_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+	addUserKnob {26 ""}
+	addUserKnob {20 matteLayer_01 n 1}
+	addUserKnob {41 red01 l "<font color='#ff6666'>red</font>" T Group6.Copy1.from0}
+	addUserKnob {41 green01 l "<font color='#66ff66'>green</font>" T Group6.Copy1.from1}
+	addUserKnob {41 blue01 l "<font color='#6666ff'>blue</font>" T Group6.Copy1.from2}
+	addUserKnob {20 matteLayer_01 n -1}
+}
+	BackdropNode {
+		inputs 0
+		name BackdropNode1
+		xpos 256
+		bdwidth 224
+		bdheight 374
+	}
+	BackdropNode {
+		inputs 0
+		name BackdropNode_output
+		tile_color 0x5a7373ff
+		xpos -141
+		ypos 738
+		bdwidth 688
+		bdheight 931
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote1
+		label show
+		xpos 120
+		ypos 1322
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote2
+		label opacity
+		xpos 520
+		ypos 890
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote3
+		label layer
+		xpos 520
+		ypos 746
+	}
+	Input {
+		inputs 0
+		name source
+		xpos 72
+		ypos -154
+	}
+set N144a02d0 [stack 0]
+	Dot {
+		name Dot3
+		xpos -86
+		ypos 12
+	}
+	Dot {
+		name Dot2
+		xpos -86
+		ypos 1344
+	}
+	Input {
+		inputs 0
+		name Input1
+		xpos 328
+		ypos 52.33333333
+		number 1
+	}
+	Dot {
+		name Dot1
+		xpos 362
+		ypos 118.6666667
+	}
+set N140bdfa0 [stack 0]
+	Dot {
+		name Dot4
+		xpos 286
+		ypos 187
+	}
+push $N140bdfa0
+	Remove {
+		name Remove1
+		xpos 328
+		ypos 177
+	}
+	Copy {
+		inputs 2
+		from0 rgba.red
+		to0 rgba.red
+		from1 rgba.green
+		to1 rgba.green
+		from2 rgba.blue
+		to2 rgba.blue
+		name Copy1
+		xpos 328
+		ypos 239.3333333
+	}
+	Dot {
+		name Dot5
+		xpos 362
+		ypos 345.6666667
+	}
+set N13ed9620 [stack 0]
+	Switch {
+		which {{parent.overlay_layer}}
+		name Switch_layers
+		xpos 440
+		ypos 764
+	}
+	Multiply {
+		channels rgb
+		value {{clamp(parent.opacity.r,0,1)} {clamp(parent.opacity.g,0,1)} {clamp(parent.opacity.b,0,1)} 0}
+		name Multiply_output
+		xpos 440
+		ypos 908
+	}
+set N107be280 [stack 0]
+	Dot {
+		name Dot8
+		xpos 474
+		ypos 1056
+	}
+push $N107be280
+push $N13ed9620
+push $N144a02d0
+add_layer {matteLayer_01 other.red other.green other.blue}
+	Merge2 {
+		inputs 2
+		operation copy
+		Achannels rgb
+		Bchannels none
+		output matteLayer_01
+		name Merge1
+		xpos 72
+		ypos 335
+	}
+	NoOp {
+		name NoOp_output
+		xpos 72
+		ypos 764
+	}
+set N14631ca0 [stack 0]
+	Remove {
+		operation keep
+		channels rgb
+		name Remove_output
+		label "(\[value this.knob.channels])"
+		xpos 280
+		ypos 902
+	}
+	MergeExpression {
+		inputs 2
+		expr0 Br*(1-Ar)
+		expr1 Bg*(1-Ag)
+		expr2 Bb*(1-Ab)
+		channel3 none
+		name MergeExpression_output
+		xpos 280
+		ypos 1052
+	}
+	Merge2 {
+		inputs 2
+		operation plus
+		Achannels rgb
+		Bchannels rgb
+		output rgb
+		name Merge_output
+		xpos 280
+		ypos 1196
+	}
+push $N14631ca0
+	LayerContactSheet {
+		showLayerNames true
+		name LayerContactSheet_output
+		xpos 160
+		ypos 1196
+	}
+push $N14631ca0
+	Switch {
+		inputs 3
+		which {{parent.show}}
+		name Switch_output
+		xpos 72
+		ypos 1340
+	}
+	CopyMetaData {
+		inputs 2
+		mergeMode "Meta only"
+		name CopyMetaData_output
+		xpos 72
+		ypos 1484
+	}
+	Output {
+		name Output1
+		xpos 72
+		ypos 1628
+	}
+end_group
