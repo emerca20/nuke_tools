@@ -1,0 +1,179 @@
+set cut_paste_input [stack 0]
+version 10.5 v7
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ label "<left>from rmannotes.sl\n/* rotate2d()\n *\n * 2D rotation of point (x,y) about origin (ox,oy) by an angle rad.\n * The resulting point is (rx, ry).\n *\n */\n#define rotate2d(x,y,rad,ox,oy,rx,ry)\n  rx = ((x) - (ox)) * cos(rad) - ((y) - (oy)) * sin(rad) + (ox);\n  ry = ((x) - (ox)) * sin(rad) + ((y) - (oy)) * cos(rad) + (oy);"
+ selected true
+ xpos 66
+ ypos -531
+ bdwidth 295
+ bdheight 151
+}
+push $cut_paste_input
+Expression {
+ temp_name0 s
+ temp_expr0 ((x/width)-(x/width/2))*cos(radians(rotation))-((y/height)-(y/height/2))*sin(radians(rotation))+(x/width/2)
+ temp_name1 t
+ temp_expr1 ((x/width)-(x/width/2))*sin(radians(rotation))+((y/height)-(y/height/2))*cos(radians(rotation))+(y/height/2)
+ temp_name2 s_abs
+ temp_expr2 ((((x/width)*((cos(radians(rotation))+1)/2))-((y/height)*((sin(radians(rotation))+1)/2))+1)/2)
+ temp_name3 t_abs
+ temp_expr3 ((((x/width)*((sin(radians(rotation))+1)/2))-((y/height)*((cos(radians(rotation))+1)/2))+1)/2)
+ channel0 alpha
+ expr0 "smoothstep((1-wipe)-(softness/2), (1-wipe)+(softness/2), ((((x/width)-(origin.x/width))*cos(radians(rotation))+1)/2)-((((y/height)-(origin.y/height))*(sin(radians(rotation)))+1)/2)+(origin.x/width))"
+ channel1 none
+ channel2 none
+ channel3 {-rgba.red -rgba.green rgba.blue}
+ name Expression1
+ selected true
+ xpos -49
+ ypos -469
+ addUserKnob {20 User}
+ addUserKnob {12 origin}
+ origin {960 540}
+ addUserKnob {7 rotation t "in degrees" R 0 360}
+ rotation 180
+ addUserKnob {7 softness}
+ softness 0.025
+ addUserKnob {7 wipe}
+ wipe 0.498
+}
+Constant {
+ inputs 0
+ channels rgb
+ name Constant1
+ selected true
+ xpos -180
+ ypos -189
+}
+ColorWheel {
+ inputs 0
+ gamma 0.45
+ name ColorWheel1
+ selected true
+ xpos -620
+ ypos -359
+}
+FrameRange {
+ first_frame 1
+ last_frame 72
+ time ""
+ name FrameRange3
+ label "\[value this.knob.first_frame]-\[value this.knob.last_frame]"
+ selected true
+ xpos -481
+ ypos -339
+}
+TimeOffset {
+ time ""
+ name TimeOffset2
+ label "\[value this.knob.time_offset]"
+ selected true
+ xpos -481
+ ypos -284
+}
+ColorBars {
+ inputs 0
+ name ColorBars1
+ selected true
+ xpos -621
+ ypos -616
+}
+FrameRange {
+ first_frame 1
+ last_frame 72
+ time ""
+ name FrameRange2
+ label "\[value this.knob.first_frame]-\[value this.knob.last_frame]"
+ selected true
+ xpos -479
+ ypos -596
+}
+TimeOffset {
+ time ""
+ name TimeOffset1
+ label "\[value this.knob.time_offset]"
+ selected true
+ xpos -479
+ ypos -538
+}
+Read {
+ inputs 0
+ file /Volumes/MNMs1VFXStorage/MNMProjects/season1/sequences/MNM_EP078_HSE_sc0010/EP078_HSE_sc0010_0140/CMP/Plates/Footage/EP078_HSE_sc0010_0140_MB/EP078_HSE_sc0010_0140_MB01/EP078_HSE_sc0010_0140_MB01.%04d.dpx
+ localizationPolicy on
+ format "1920 1080 0 0 1920 1080 1 HD_1080"
+ before black
+ last 248
+ after black
+ frame_mode "start at"
+ frame 1
+ origlast 248
+ origset true
+ colorspace Cineon
+ name Read36
+ selected true
+ xpos -620
+ ypos -841
+}
+FrameRange {
+ first_frame 1
+ last_frame 72
+ time ""
+ name FrameRange1
+ label "\[value this.knob.first_frame]-\[value this.knob.last_frame]"
+ selected true
+ xpos -482
+ ypos -812
+}
+Dot {
+ name Dot28
+ selected true
+ xpos -297
+ ypos -805
+}
+AppendClip {
+ inputs 2
+ meta_from_first false
+ time ""
+ name AppendClip1
+ selected true
+ xpos -331
+ ypos -534
+}
+AppendClip {
+ inputs 2
+ meta_from_first false
+ time ""
+ name AppendClip2
+ selected true
+ xpos -331
+ ypos -280
+}
+AppendClip {
+ inputs 2
+ meta_from_first false
+ time ""
+ name AppendClip3
+ selected true
+ xpos -331
+ ypos -165
+}
+Viewer {
+ frame 1
+ frame_range 1-100
+ fps 23.97602463
+ colour_sample_bbox {0.9395833611 0.5416666865 0.9406250119 0.5427083373}
+ name Viewer1
+ selected true
+ xpos -13
+ ypos -277
+}
+
+#----------------------------------------------
+
+#Auto_write_path_EXR==
+[python nuke.script_directory()]/../[file tail [file rootname [python {nuke.scriptName()}]]]/[file tail [file rootname [python {nuke.scriptName()}]]].%04d.exr
+
+#Auto_write_path_QT
+[python nuke.script_directory()]/../[file tail [file rootname [python {nuke.scriptName()}]]].mov
