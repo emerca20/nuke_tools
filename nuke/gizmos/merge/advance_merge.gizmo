@@ -1,0 +1,397 @@
+push $cut_paste_input
+push 0
+Group {
+	inputs 2
+	name Group15
+	tile_color 0x4a5ec5ff
+	label advance_merge
+	selected true
+	xpos 260
+	ypos -256
+	addUserKnob {20 adv_merge l Advanced_Merge}
+	addUserKnob {4 operation t "division B/A\nexponentiation B^A\nlogarithm logA(B)\nbase B^(1/A)" M {division exponentiation logarithm base "" ""}}
+	addUserKnob {6 sRGB l "Video colorspace" t "Nuke's image processing functions assumes that images are in linear colorspace.\n\nWhen this setting is active, colors are converted to the sRGB colorspace before doing the composite and the results are converted back to linear afterwards.\n\nThis setting can be used to duplicate the results obtained from applications that use the standard compositing math but apply it to images that are in non-linear colorspaces.  Note that when this switch is necessary, you might also need to turn <i>off</i> the \"premultiplied\" flag in any file readers to have the colorspace conversion applied on unpremultiplied source image values.\n\nAlpha and any channels other than rgb are merged without conversion." -STARTLINE}
+	addUserKnob {6 screen_alpha l "alpha masking" -STARTLINE}
+	addUserKnob {4 bbox l "set bbox to" t "Output bounding box.  Any data outside this region is clipped off." M {union intersection A B "" ""}}
+	addUserKnob {4 metadata l "metadata from" -STARTLINE M {B A All ""}}
+	addUserKnob {4 rangeInput l "range from" t "Output frame range from selected input(s)." -STARTLINE M {B A All "" ""}}
+	addUserKnob {26 ""}
+	addUserKnob {41 Achannels l "A channels" t "Channels from the A input(s) to merge with the B channels, and which channel to treat as the A alpha.  \"none\" acts like black/zero." T Merge1.Achannels}
+	addUserKnob {41 Bchannels l "B channels" t "Channels from the B input(s) to merge with the A channels, and which channel to treat as the B alpha.  \"none\" acts like black/zero." T Merge2.Achannels}
+	addUserKnob {41 output t "Channels to write the merge of the A and B channels to." T Merge3.output}
+	addUserKnob {11 also_merge l "also merge" t "These channels are also merged as well as the rgb."}
+	also_merge none
+	addUserKnob {26 ""}
+	addUserKnob {41 maskChannelInput l mask t "Use this channel from the original input to mix the output with the original input." -STARTLINE T Keymix1.maskChannel}
+	addUserKnob {6 inject t "Copy mask to the output Mask.a channel." -STARTLINE}
+	addUserKnob {6 invert t "Invert the use of the mask channel." -STARTLINE}
+	addUserKnob {6 fringe t "Use 4*(1-mask)*mask to mix." -STARTLINE}
+	addUserKnob {41 mix t "Dissolve between the original image at 0 and the full effect at 1." T Keymix1.mix}
+}
+	StickyNote {
+		inputs 0
+		name StickyNote5
+		label fringe
+		xpos 1535
+		ypos 1502
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote4
+		label invert
+		xpos 1535
+		ypos 1310
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote6
+		label sRGB
+		xpos -40
+		ypos 1310
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote2
+		label operation
+		xpos -40
+		ypos 1118
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote1
+		label inject
+		xpos 1085
+		ypos 2296
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote8
+		label Bchannels
+		xpos 635
+		ypos 158
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote9
+		label output
+		xpos 1086
+		ypos 2870
+	}
+	Input {
+		inputs 0
+		name mask
+		xpos 1460
+		ypos -394
+		number 2
+	}
+	Invert {
+		channels {none none none rgba.alpha}
+		name Invert1
+		xpos 1460
+		ypos 1328
+		disable {{"1-\[value parent.knob.invert]"}}
+	}
+	Expression {
+		channel0 none
+		channel1 none
+		channel2 none
+		expr3 4*(1-a)*a
+		name Expression1
+		label "\[value this.knob.expr3]"
+		xpos 1460
+		ypos 1520
+		disable {{"1-\[value parent.knob.fringe]"}}
+	}
+	Dot {
+		name Dot7
+		xpos 1494
+		ypos 1722
+	}
+set N3de7fad0 [stack 0]
+push $N3de7fad0
+	Input {
+		inputs 0
+		name A
+		xpos -787
+		ypos -586
+		number 1
+	}
+	Dot {
+		name Dot19
+		xpos -753
+		ypos -390
+	}
+	Dot {
+		name Dot13
+		xpos -753
+		ypos -198
+	}
+set N3de88fe0 [stack 0]
+	Dot {
+		name Dot14
+		xpos -828
+		ypos -6
+	}
+push $N3de88fe0
+	Remove {
+		name Remove1
+		xpos -786
+		ypos -16
+	}
+	Merge2 {
+		inputs 2
+		operation copy
+		name Merge1
+		label "\[value this.knob.Achannels] -> \[value this.knob.Bchannels]"
+		xpos -788
+		ypos 176
+	}
+	Colorspace {
+		channels rgba
+		colorspace_out sRGB
+		name Colorspace1
+		label "\[value this.knob.colorspace_in] -> \[value this.knob.colorspace_out]"
+		xpos -788
+		ypos 368
+		disable {{"1-\[value parent.sRGB]"}}
+	}
+	Dot {
+		name Dot2
+		xpos -754
+		ypos 570
+	}
+set N3debf010 [stack 0]
+	Input {
+		inputs 0
+		name B
+		xpos 560
+		ypos -586
+	}
+	Dot {
+		name Dot9
+		xpos 594
+		ypos -390
+	}
+	Dot {
+		name Dot15
+		xpos 593
+		ypos -198
+	}
+set N3dec8530 [stack 0]
+	Dot {
+		name Dot12
+		xpos 520
+		ypos -6
+	}
+push $N3dec8530
+	Remove {
+		name Remove2
+		xpos 560
+		ypos -16
+	}
+	Merge2 {
+		inputs 2
+		operation copy
+		name Merge2
+		label "\[value this.knob.Achannels] -> \[value this.knob.Bchannels]"
+		xpos 559
+		ypos 176
+	}
+set N3deda390 [stack 0]
+	Colorspace {
+		channels rgba
+		colorspace_out sRGB
+		name Colorspace3
+		label "\[value this.knob.colorspace_in] -> \[value this.knob.colorspace_out]"
+		xpos 559
+		ypos 368
+		disable {{"1-\[value parent.sRGB]"}}
+	}
+	Dot {
+		name Dot1
+		xpos 593	
+		ypos 574	
+	}
+set N3defe550 [stack 0]
+	MergeExpression {
+		inputs 2
+		expr0 "pow(Br, 1/Ar)"
+		expr1 "pow(Bg, 1/Ag)"
+		expr2 "pow(Bb, 1/Ab)"
+		channel3 alpha
+		expr3 "pow(Ba, 1/Aa)"
+		name MergeExpression4
+		label B^(1/A)
+		xpos 559
+		ypos 752
+	}
+	Dot {
+		name Dot6
+		xpos 593
+		ypos 954
+	}
+push $N3debf010
+push $N3defe550
+	MergeExpression {
+		inputs 2
+		expr0 log10(Br)/log10(Ar)
+		expr1 log10(Bg)/log10(Ag)
+		expr2 log10(Bb)/log10(Ab)
+		channel3 alpha
+		expr3 log10(Ba)/log10(Aa)
+		name MergeExpression3
+		label logA(B)
+		xpos 111
+		ypos 752
+	}
+	Dot {
+		name Dot5
+		xpos 145
+		ypos 954
+	}
+push $N3debf010
+push $N3defe550
+		MergeExpression {
+		inputs 2
+		expr0 "pow(Br, Ar)"
+		expr1 "pow(Bg, Ag)"
+		expr2 "pow(Bb, Ab)"
+		channel3 alpha
+		expr3 "pow(Ba, Aa)"
+		name MergeExpression2
+		label B^A
+		xpos -338
+		ypos 752
+	}
+	Dot {
+		name Dot4
+		xpos -304
+		ypos 954
+	}
+push $N3debf010
+push $N3defe550
+	MergeExpression {
+		inputs 2
+		expr0 Br/Ar
+		expr1 Bg/Ag
+		expr2 Bb/Ab
+		channel3 alpha
+		expr3 Ba/Aa
+		name MergeExpression1
+		label B/A
+		xpos -788
+		ypos 752
+	}
+	Dot {
+		name Dot3
+		xpos -754
+		ypos 954
+	}
+	Switch {
+		inputs 4
+		which {{"\[numvalue parent.knob.operation]"}}
+		name Switch1
+		xpos -114
+		ypos 1142
+	}
+	Colorspace {
+		channels rgba
+		colorspace_in sRGB
+		name Colorspace2
+		label "\[value this.knob.colorspace_in] -> \[value this.knob.colorspace_out]"
+		xpos -114
+		ypos 1328
+		disable {{"1-\[value parent.sRGB]"}}
+	}
+	Dot {
+		name Dot8
+		xpos -80
+		ypos 1530
+	}
+set N3df68350 [stack 0]
+push $N3deda390
+	Dot {
+		name Dot10
+		xpos 1193
+		ypos 378
+	}
+	Keymix {
+		inputs 3
+		channels rgba
+		maskChannel -rgba.alpha
+		name Keymix1
+		xpos 1159
+		ypos 1718
+	}
+	Dot {
+		name Dot11
+		xpos 1194
+		ypos 1940
+	}
+push $N3df68350
+	Switch {
+		inputs 2
+		which {{parent.maskChannel!=0}}
+		name Switch2
+		xpos 1010
+		ypos 2128
+	}
+	ShuffleCopy {
+		inputs 2
+		alpha alpha2
+		black alpha
+		out2 mask
+		name ShuffleCopy1
+		label "\[value this.knob.out2]"
+		xpos 1010
+		ypos 2314
+		disable {{1-parent.inject}}
+	}
+	Dot {
+		name Dot17
+		xpos 1044
+		ypos 2514
+	}
+set N3df898e0 [stack 0]
+	Dot {
+		name Dot16
+		xpos 970
+		ypos 2708
+	}
+push $N3df898e0
+	Merge2 {
+		inputs 2
+		operation copy
+		Bchannels {{{output}}}
+		name Merge3
+		label "\[value this.knob.Achannels] - > \[value this.knob.Bchannels]"
+		xpos 1011
+		ypos 2888
+	}
+	Output {
+		name Output1
+		xpos 1011
+		ypos 3086
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote7
+		label Achannels
+		xpos -714
+		ypos 158
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote3
+		label mask
+		xpos 1235
+		ypos 1694
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote10
+		label mask
+		xpos 1085
+		ypos 2104
+	}
+end_group
