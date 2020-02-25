@@ -1,0 +1,165 @@
+push $cut_paste_input
+Group {
+	name Group7
+	tile_color 0x79a9ffff
+	label multiplicative_inverse
+	selected true
+	xpos 410
+	ypos -70
+	addUserKnob {20 multiplicative_inverse l Multiplicative_Inverse}
+	addUserKnob {41 channels t "The effect is applied only to these channels." T Unpremult1.channels}
+	addUserKnob {41 unpremult l "(un)premult by" t "Image is divided by this channel before being processed, and multiplied again afterwards.  This can imporove color corrections of anti-aliased edges." T Unpremult1.alpha}
+	addUserKnob {41 maskChannelInput l mask t "Use this channel from the original input to mix the output with the original input." T Keymix1.maskChannel}
+	addUserKnob {6 inject t "Copy mask to the output Mask.a channel." -STARTLINE}
+	addUserKnob {6 invert t "Invert the use of the mask channel." -STARTLINE}
+	addUserKnob {6 fringe t "Use 4*(1-mask)*mask to mix." -STARTLINE}
+}
+	StickyNote {
+		inputs 0
+		name StickyNote5
+		label fringe
+		xpos 785
+		ypos 614
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote2
+		label inject
+		xpos 335
+		ypos 1382
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote3
+		label mask
+		xpos 335
+		ypos 1190
+	}
+	Input {
+		inputs 0
+		name mask
+		xpos 710
+		ypos -130
+		number 1
+	}
+	Invert {
+		channels {none none none rgba.alpha}
+		name Invert1
+		xpos 710
+		ypos 440
+		disable {{"1-\[value parent.knob.invert]"}}
+	}
+	Expression {
+		channel0 none
+		channel1 none
+		channel2 none
+		expr3 4*(1-a)*a
+		name Expression1
+		label "\[value this.knob.expr3]"
+		xpos 710
+		ypos 632
+		disable {{"1-\[value parent.knob.fringe]"}}
+	}
+	Dot {
+		name Dot14
+		xpos 744
+		ypos 834
+	}
+set N7e0095e0 [stack 0]
+push $N7e0095e0
+	Input {
+		inputs 0
+		name Input1
+		xpos 410
+		ypos -130
+	}
+	Dot {
+		name Dot1
+		xpos 444
+		ypos 66
+	}
+set N7e011bc0 [stack 0]
+	Unpremult {
+		channels all
+		alpha none
+		name Unpremult1
+		xpos 110
+		ypos 254
+		disable {{this.alpha==0}}
+	}
+	Expression {
+		expr0 1/r
+		expr1 1/g
+		expr2 1/b
+		expr3 1/a
+		name Expression2
+		xpos 110
+		ypos 446
+	}
+	Premult {
+		alpha {{{parent.Unpremult1.alpha}}}
+		name Premult1
+		xpos 110
+		ypos 638
+		disable {{this.alpha==0}}
+	}
+set N7e032400 [stack 0]
+push $N7e011bc0
+	Keymix {
+		inputs 3
+		channels {{{parent.Unpremult1.channels}}}
+		maskChannel none
+		name Keymix1
+		selected true
+		xpos 410
+		ypos 824
+	}
+	Dot {
+		name Dot15
+		xpos 444
+		ypos 1026
+	}
+push $N7e032400
+	Dot {
+		name Dot13
+		xpos 144
+		ypos 1026
+	}
+	Switch {
+		inputs 2
+		which {{parent.maskChannelInput!=0}}
+		name Switch1
+		xpos 260
+		ypos 1214
+	}
+	ShuffleCopy {
+		inputs 2
+		alpha alpha2
+		black alpha
+		out2 mask
+		name ShuffleCopy1
+		label "\[value this.knob.out2]"
+		xpos 260
+		ypos 1400
+		disable {{1-parent.inject}}
+	}
+	Output {
+		name Output1
+		xpos 260
+		ypos 1598
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote4
+		label invert
+		xpos 785
+		ypos 422
+	}
+	StickyNote {
+		inputs 0
+		name StickyNote6
+		label unpremult
+		xpos 185
+		ypos 230
+	}
+end_group
