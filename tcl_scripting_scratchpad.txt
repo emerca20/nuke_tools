@@ -169,3 +169,11 @@ Viewer {
  xpos -13
  ypos -277
 }
+
+#----------------------------------------------
+
+#Auto_write_path_EXR==
+[python nuke.script_directory()]/../[file tail [file rootname [python {nuke.scriptName()}]]]/[file tail [file rootname [python {nuke.scriptName()}]]].%04d.exr
+
+#Auto_write_path_QT==
+[python nuke.script_directory()]/../[file tail [file rootname [python {nuke.scriptName()}]]].mov
