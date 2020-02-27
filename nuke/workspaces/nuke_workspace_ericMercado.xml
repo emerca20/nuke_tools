@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="23" w="2048" h="1037" screen="0">
+        <splitter orientation="1">
+            <split size="722"/>
+            <splitter orientation="1">
+                <split size="40"/>
+                <dock id="" activePageId="Toolbar.1">
+                    <page id="Toolbar.1"/>
+                </dock>
+                <split size="678"/>
+                <splitter orientation="2">
+                    <split size="529"/>
+                    <dock id="" activePageId="Properties.1">
+                        <page id="Properties.1"/>
+                        <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+                    </dock>
+                    <split size="483"/>
+                    <dock id="" activePageId="uk.co.thefoundry.waveformscope.1">
+                        <page id="uk.co.thefoundry.vectorscope.1"/>
+                        <page id="uk.co.thefoundry.waveformscope.1"/>
+                        <page id="uk.co.thefoundry.histogram.1"/>
+                    </dock>
+                </splitter>
+            </splitter>
+            <split size="1322" stretch="1"/>
+            <splitter orientation="2">
+                <split size="1016"/>
+                <dock id="" activePageId="DAG.1">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                    <page id="uk.co.thefoundry.scripteditor.2"/>
+                </dock>
+            </splitter>
+        </splitter>
+    </window>
+    <window x="-2048" y="0" w="2048" h="1136" screen="1">
+        <splitter orientation="1">
+            <split size="2048"/>
+            <dock id="" activePageId="Viewer.1" focus="true">
+                <page id="Viewer.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
