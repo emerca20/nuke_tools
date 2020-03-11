@@ -1,0 +1,280 @@
+set cut_paste_input [stack 0]
+version 11.3 v5
+push $cut_paste_input
+Group {
+name Group7
+help "This node provides IBKGizmo a colour reference in which to base its keying algorithm on a per pixel basis.\nThe idea is to remove the foreground image and only leave the shades and hues of the original blue/greenscreen.\nAttach the output of this node to the 'c' input of a default IBKGizmo. Attach the input of this node along with the 'fg' input of the IBKGizmo to the original screen.\nPick which colour your screen type is in both nodes and then while viewing the alpha output from the IBKGizmo lower the darks.b (if a bluescreen - adjust darks.g if a greenscreen) in this node \nuntil you see a change in the garbage area of the matte. Once you see a change then you have gone too far -back off a step. If you are still left with discoloured edges you can use the other colours in the lights and darks to eliminate them. Remember the idea is \nto be left with the original shades of the screen and the foreground blacked out. While swapping between viewing the matte from the IBKGizmo and the rgb output of this IBKColour adjust the other colours \nuntil you see a change in the garbage area of the matte. Simple rule of thumb - if you have a light red discoloured area increase the lights.r - if you have a dark green discoloured area increase darks.g. If your screen does not have a very saturated hue you may still be left\n with areas of discolouration after the above process. The 'erode' slider can help with this - while viewing the rgb output adjust the erode until those areas disappear.\nThe 'patch black' slider allows you to fill in the black areas with screen colour. This is not always necessary but if you see blue squares in your composite increase this value and it'll fix it.\nThe above is the only real workflow for this node - working from the top parameter to the bottom parameter- going back to tweak darks/lights with 'erode' and 'patch black' activated isn't really gonna work. "
+tile_color 0x990000
+label IBKColourV3
+selected true
+xpos 933
+ypos -5582
+addUserKnob {20 "" l Parameters}
+addUserKnob {6 off_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {16 Size l size t "size of colour expansion" R 0 100}
+Size 4
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {7 erode t "increase this value if you still see traces of the foreground edge colour in the output" R 0 5}
+erode 2
+addUserKnob {26 ""}
+addUserKnob {7 multi l "patch black" t "increase this to optionally remove the black from the output.\nThis should only be used once the the above darks/lights have been set" R 0 5}
+multi 1
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {20 INVISIBLE t "These knobs are hidden, and labeled 'INVISIBLE' on the default IBKColourV3 node," n 1}
+addUserKnob {7 level t "multiply the rgb output. Helps remove noise from main key"}
+level 1
+addUserKnob {6 filt -STARTLINE}
+filt true
+addUserKnob {20 endGroup_1 l endGroup n -1}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {20 unnecessary_knobs l "unnecessary knobs" n 1}
+unnecessary_knobs 0
+addUserKnob {6 mult_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {41 screen_type l "screen type" T IBK2.screen_type}
+addUserKnob {18 mult l lights t "adjust the colour values to get the best separation between black and the screen type colour.\nYou want to be left with only shades of the screen colour and black. \nIf a green screen is selected start by bringing down darks->green\nIf a blue screen is selected start by bringing down darks->blue" R 0 2}
+mult {1 1 1}
+addUserKnob {18 off l darks t "adjust the colour values to get the best separation between black and the screen type colour.\nYou want to be left with only shades of the screen colour and black. \nIf a green screen is selected start by bringing down darks->green\nIf a blue screen is selected start by bringing down darks->blue" R -1 1}
+off {0 0 0}
+addUserKnob {20 endGroup n -1}
+}
+Input {
+inputs 0
+name Input1
+selected true
+xpos -18
+ypos -105
+}
+Dot {
+name Dot16
+xpos 16
+ypos -21
+}
+set N65674710 [stack 0]
+Invert {
+channels alpha
+name Invert1
+tile_color 0x7aa9ff00
+xpos -18
+ypos 91
+}
+Erode {
+size {{erode}}
+name Erode1
+xpos -18
+ypos 173
+}
+set N65695f20 [stack 0]
+Dot {
+name Dot3
+tile_color 0x9597bf00
+xpos 16
+ypos 665
+}
+push $N65695f20
+push $N65674710
+Dot {
+name Dot17
+xpos 277
+ypos -21
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+channels alpha
+name Copy3
+tile_color 0x9e3c6300
+xpos 238
+ypos 168
+}
+Premult {
+name Premult3
+xpos 238
+ypos 218
+}
+set N65607980 [stack 0]
+EdgeBlur {
+size {{Size}}
+name EdgeBlur1
+xpos 238
+ypos 255
+}
+Unpremult {
+name Unpremult4
+xpos 238
+ypos 300
+}
+set N65622360 [stack 0]
+Clamp {
+channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+maximum 0
+MinClampTo_enable true
+MaxClampTo_enable true
+name Clamp1
+xpos 358
+ypos 300
+}
+set N764bc760 [stack 0]
+Dot {
+name Dot5
+xpos 512
+ypos 304
+}
+push $N764bc760
+push $N65622360
+Dot {
+name Dot4
+xpos 272
+ypos 349
+}
+set N764c51b0 [stack 0]
+Copy {
+inputs 2
+from0 rgba.red
+to0 rgba.alpha
+name Copy1
+xpos 358
+ypos 342
+}
+Blur {
+channels rgba
+size {{Size*3*multi}}
+name Blur1
+xpos 358
+ypos 390
+}
+Unpremult {
+name Unpremult1
+xpos 358
+ypos 428
+}
+Copy {
+inputs 2
+from0 rgba.red
+to0 rgba.alpha
+name Copy2
+xpos 478
+ypos 421
+}
+Invert {
+channels alpha
+name Invert2
+xpos 480
+ypos 473
+}
+set N764df620 [stack 0]
+FilterErode {
+channels alpha
+size {{(-Size/5)}}
+filter gaussian
+name FilterErode2
+xpos 480
+ypos 571
+}
+push $N764df620
+FilterErode {
+channels alpha
+size {{(-Size/5)*multi*2}}
+filter gaussian
+name FilterErode1
+xpos 363
+ypos 473
+}
+Switch {
+inputs 2
+which {{1-filt}}
+name Switch1
+xpos 363
+ypos 578
+}
+Premult {
+name Premult1
+xpos 363
+ypos 616
+}
+push $N764c51b0
+Merge {
+inputs 2
+name Merge1
+label "\[value level]\n\[value filt]"
+xpos 238
+ypos 607
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name ChannelCopy2
+tile_color 0x9e3c6300
+xpos 238
+ypos 658
+}
+Grade {
+multiply {{level}}
+black_clamp false
+name Grade1
+xpos 238
+ypos 706
+}
+set N764b4550 [stack 0]
+Output {
+name Output1
+xpos 238
+ypos 743
+}
+push $N764b4550
+Viewer {
+frame 9
+frame_range 1-69
+fps 23.97602463
+viewerProcess TPS_SISTAS/OVAL
+name Viewer1
+xpos -162
+ypos 346
+}
+push $N65607980
+Blur {
+size {{Size}}
+name Blur4
+tile_color 0xcc804e00
+xpos 130
+ypos 255
+disable true
+}
+push $N65674710
+Dot {
+name Dot1
+tile_color 0x9597bf00
+xpos -94
+ypos -21
+}
+Grade {
+multiply {{mult.r} {mult.g} {mult.b} {curve}}
+add {{off.r} {off.g} {off.b} {curve}}
+name Grade11
+tile_color 0x7aa9ff00
+xpos -128
+ypos 30
+disable true
+}
+Clamp {
+maximum_enable false
+name Clamp2
+xpos -128
+ypos 91
+disable true
+}
+set N6566c180 [stack 0]
+push $N6566c180
+push $N6566c180
+IBK {
+inputs 3
+blue_green_weight 1
+luma 1
+name IBK2
+tile_color 0xff00
+xpos -128
+ypos 175
+disable true
+}
+end_group
