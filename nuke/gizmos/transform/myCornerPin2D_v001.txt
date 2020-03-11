@@ -1,0 +1,27 @@
+set cut_paste_input [stack 0]
+version 11.3 v5
+push $cut_paste_input
+CornerPin2D {
+to1 {{"parent.\[value this.master_bbox].bbox.x"} {"parent.\[value this.master_bbox].bbox.y"}}
+to2 {{"parent.\[value this.master_bbox].bbox.r"} {"parent.\[value this.master_bbox].bbox.y"}}
+to3 {{"parent.\[value this.master_bbox].bbox.r"} {"parent.\[value this.master_bbox].bbox.t"}}
+to4 {{"parent.\[value this.master_bbox].bbox.x"} {"parent.\[value this.master_bbox].bbox.t"}}
+invert false
+shutteroffset centred
+from1 {{this.to1.x(reference_frame)} {this.to1.y(reference_frame)}}
+from2 {{this.to2.x(reference_frame)} {this.to2.y(reference_frame)}}
+from3 {{this.to3.x(reference_frame)} {this.to3.y(reference_frame)}}
+from4 {{this.to4.x(reference_frame)} {this.to4.y(reference_frame)}}
+name CornerPin2D2
+label "\[value this.knob.master_bbox]\\nreference_frame==\[format %03d \[value this.knob.reference_frame]]"
+selected true
+xpos 1231
+ypos -2809
+addUserKnob {20 User}
+addUserKnob {35 temp M {"nodes/Kodak 5248" "knobs this \{red_size 3.30 green_size 2.90 blue_size 2.5 red_i 0.60 green_i 0.60 blue_i 0.60 red_m 0.42 green_m 0.46 blue_m 0.85 black 0.00 label \{Kodak 5248\}\}" "" ""}}
+addUserKnob {26 transform_divider l Transform}
+addUserKnob {1 master_bbox}
+addUserKnob {3 reference_frame l "reference frame" t "select the frame number that will have the identity transform,"}
+reference_frame 1
+addUserKnob {22 set_to_current_frame l "set to current frame" -STARTLINE}
+}
