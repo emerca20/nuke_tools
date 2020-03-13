@@ -2,29 +2,16 @@ set cut_paste_input [stack 0]
 version 11.3 v5
 push $cut_paste_input
 CornerPin2D {
-to1 {{parent.TimeOffset1.bbox.x x5 0} {parent.TimeOffset1.bbox.y x5 0}}
-to2 {{parent.TimeOffset1.bbox.r x5 0} {parent.TimeOffset1.bbox.y x5 0}}
-to3 {{parent.TimeOffset1.bbox.r x5 0} {parent.TimeOffset1.bbox.t x5 0}}
-to4 {{parent.TimeOffset1.bbox.x x5 0} {parent.TimeOffset1.bbox.t x5 0}}
 invert false
-motionblur 4
+motionblur 1
 shutteroffset centred
-from1 {{this.knob.to1.x(5)} {this.knob.to1.y(5)}}
-from2 {{this.knob.to2.x(5)} {this.knob.to2.y(5)}}
-from3 {{this.knob.to3.x(5)} {this.knob.to3.y(5)}}
-from4 {{this.knob.to4.x(5)} {this.knob.to4.y(5)}}
-name CornerPin2D3
+name CornerPin2D1
 label "\[value this.knob.master_bbox]\\nreference_frame==\[format %03d \[value this.knob.reference_frame]]"
-selected true
-xpos 1344
-ypos -1183
 addUserKnob {20 User}
-addUserKnob {35 temp M {"nodes/Kodak 5248" "knobs this \{red_size 3.30 green_size 2.90 blue_size 2.5 red_i 0.60 green_i 0.60 blue_i 0.60 red_m 0.42 green_m 0.46 blue_m 0.85 black 0.00 label \{Kodak 5248\}\}" "" ""}}
 addUserKnob {26 transform_divider l Transform}
-addUserKnob {1 master_bbox}
-master_bbox TimeOffset1
+addUserKnob {1 master_bbox l node}
 addUserKnob {3 reference_frame l "reference frame" t "select the frame number that will have the identity transform,"}
-reference_frame 5
+reference_frame 1
 addUserKnob {22 set_to_current_frame l "set to current frame" -STARTLINE}
-addUserKnob {22 update T "master_bbox = nuke.thisNode().knob('master_bbox').value()\nreference_frame = str(int(nuke.thisNode().knob('reference_frame').value()))\n\n# initialize 'to' knob contents\nnuke.thisNode().knob('to1').setExpression(\"parent.\" + master_bbox + \".bbox.x\", 0)\nnuke.thisNode().knob('to1').setExpression(\"parent.\" + master_bbox + \".bbox.y\", 1)\nnuke.thisNode().knob('to2').setExpression(\"parent.\" + master_bbox + \".bbox.r\", 0)\nnuke.thisNode().knob('to2').setExpression(\"parent.\" + master_bbox + \".bbox.y\", 1)\nnuke.thisNode().knob('to3').setExpression(\"parent.\" + master_bbox + \".bbox.r\", 0)\nnuke.thisNode().knob('to3').setExpression(\"parent.\" + master_bbox + \".bbox.t\", 1)\nnuke.thisNode().knob('to4').setExpression(\"parent.\" + master_bbox + \".bbox.x\", 0)\nnuke.thisNode().knob('to4').setExpression(\"parent.\" + master_bbox + \".bbox.t\", 1)\n\n# initialize 'from' knob contents\n#nuke.thisNode().knob('from1').setExpression(\"this.knob.to1.x(\" + reference_frame + \")\", 0)\n#nuke.thisNode().knob('from1').setExpression(\"this.knob.to1.y(\" + reference_frame + \")\", 1)\n#nuke.thisNode().knob('from2').setExpression(\"this.knob.to2.x(\" + reference_frame + \")\", 0)\n#nuke.thisNode().knob('from2').setExpression(\"this.knob.to2.y(\" + reference_frame + \")\", 1)\n#nuke.thisNode().knob('from3').setExpression(\"this.knob.to3.x(\" + reference_frame + \")\", 0)\n#nuke.thisNode().knob('from3').setExpression(\"this.knob.to3.y(\" + reference_frame + \")\", 1)\n#nuke.thisNode().knob('from4').setExpression(\"this.knob.to4.x(\" + reference_frame + \")\", 0)\n#nuke.thisNode().knob('from4').setExpression(\"this.knob.to4.y(\" + reference_frame + \")\", 1)\n\nnuke.thisNode().knob('from1').x.setValue(nuke.thisNode().knob('from1').x(reference_frame))\nnuke.thisNode().knob('from1').y.setValue(nuke.thisNode().knob('from1').y(reference_frame))\nnuke.thisNode().knob('from2').setValue()\nnuke.thisNode().knob('from2').setValue()\nnuke.thisNode().knob('from3').setValue()\nnuke.thisNode().knob('from3').setValue()\nnuke.thisNode().knob('from4').setValue()\nnuke.thisNode().knob('from4').setValue()\n\n\n" +STARTLINE}
+addUserKnob {22 update T "master_bbox = nuke.thisNode().knob('master_bbox').value()\nfor node in nuke.allNodes():\n\tif master_bbox != node.knob('name').value():\n\t\tnuke.message(\"Can not find node named '\" + master_bbox + \"'.\")\n\t\tbreak\n\telse:\n\t\t# the object, 'OutputContext(),' is used here to store the reference frame as a callable variable\n\t\tvar_outputContext = nuke.OutputContext()\n\t\tvar_outputContext.setFrame(nuke.thisNode().knob('reference_frame').value())\n\t\t\n\t\t# initialize 'to' knob contents\n\t\tnuke.thisNode().knob('to1').setExpression(\"parent.\" + master_bbox + \".bbox.x\", 0)\n\t\tnuke.thisNode().knob('to1').setExpression(\"parent.\" + master_bbox + \".bbox.y\", 1)\n\t\tnuke.thisNode().knob('to2').setExpression(\"parent.\" + master_bbox + \".bbox.r\", 0)\n\t\tnuke.thisNode().knob('to2').setExpression(\"parent.\" + master_bbox + \".bbox.y\", 1)\n\t\tnuke.thisNode().knob('to3').setExpression(\"parent.\" + master_bbox + \".bbox.r\", 0)\n\t\tnuke.thisNode().knob('to3').setExpression(\"parent.\" + master_bbox + \".bbox.t\", 1)\n\t\tnuke.thisNode().knob('to4').setExpression(\"parent.\" + master_bbox + \".bbox.x\", 0)\n\t\tnuke.thisNode().knob('to4').setExpression(\"parent.\" + master_bbox + \".bbox.t\", 1)\n\t\t\n\t\t# initialize 'from' knob contents\n\t\tnuke.thisNode().knob('from1').setValue(nuke.thisNode().knob('to1').x(var_outputContext), 0)\n\t\tnuke.thisNode().knob('from1').setValue(nuke.thisNode().knob('to1').y(var_outputContext), 1)\n\t\tnuke.thisNode().knob('from2').setValue(nuke.thisNode().knob('to2').x(var_outputContext), 0)\n\t\tnuke.thisNode().knob('from2').setValue(nuke.thisNode().knob('to2').y(var_outputContext), 1)\n\t\tnuke.thisNode().knob('from3').setValue(nuke.thisNode().knob('to3').x(var_outputContext), 0)\n\t\tnuke.thisNode().knob('from3').setValue(nuke.thisNode().knob('to3').y(var_outputContext), 1)\n\t\tnuke.thisNode().knob('from4').setValue(nuke.thisNode().knob('to4').x(var_outputContext), 0)\n\t\tnuke.thisNode().knob('from4').setValue(nuke.thisNode().knob('to4').y(var_outputContext), 1)" +STARTLINE}
 }
