@@ -96,3 +96,10 @@ for node in nuke.allNodes('Read'):
     	node.knob('localizationPolicy').setValue('on')
 readList= nuke.allNodes('Read')
 print(readList)
+
+#BASH test code
+#alias ll="ls -la"
+#export testEnvironmentVariable='test'
+#testFunction () {
+#	echo $testEnvironmentVariable
+#}
