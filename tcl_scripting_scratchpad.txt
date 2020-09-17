@@ -100,7 +100,7 @@ TimeOffset {
 }
 Read {
  inputs 0
- file /Volumes/MNMs1VFXStorage/MNMProjects/season1/sequences/MNM_EP078_HSE_sc0010/EP078_HSE_sc0010_0140/CMP/Plates/Footage/EP078_HSE_sc0010_0140_MB/EP078_HSE_sc0010_0140_MB01/EP078_HSE_sc0010_0140_MB01.%04d.dpx
+ file 
  localizationPolicy on
  format "1920 1080 0 0 1920 1080 1 HD_1080"
  before black
