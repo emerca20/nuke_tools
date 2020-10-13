@@ -1,5 +1,6 @@
 # expression used here was learned from:
 # Nuke 101: Professional Compositing and Visual Effects (2nd Edition) -- Ron Ganbar
+# used in conjunction with a ramp and various color operators to better visualize mathematics
 
 push $cut_paste_input
 Group {
