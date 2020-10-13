@@ -1,3 +1,6 @@
+# expression used here was learned from:
+# Nuke 101: Professional Compositing and Visual Effects (2nd Edition) -- Ron Ganbar
+
 push $cut_paste_input
 Group {
 	name Group14
