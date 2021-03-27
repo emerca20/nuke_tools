@@ -1,0 +1,17 @@
+set cut_paste_input [stack 0]
+version 11.3 v5
+push $cut_paste_input
+Tracker4 {
+pretrack_filter none
+max_error 0.1
+warp srt
+name Tracker1
+label "reference_frame==\[format %03d \[value this.knob.reference_frame]]"
+selected true
+xpos 1454
+ypos -2799
+addUserKnob {20 User}
+addUserKnob {26 timeOffset l "Time Offset" -STARTLINE}
+addUserKnob {3 timeOffset_val l "" +STARTLINE}
+addUserKnob {22 timeOffset_btn l "apply time offset" -STARTLINE T "if(nuke.thisNode().knob('tracks').value() != 0.0):\n\tnuke.thisNode().knob('tracks').setExpression(\"curve(frame+(this.timeOffset_val)*-1)\")\nelse:\n\tprint('No tracks found on this tracker node!')"}
+}
