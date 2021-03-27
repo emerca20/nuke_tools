@@ -1,0 +1,17 @@
+set cut_paste_input [stack 0]
+version 11.3 v5
+push $cut_paste_input
+
+Grade {
+black_clamp 0
+white_clamp 0
+selected true
+addUserKnob {20 User}
+addUserKnob {22 ev_btn l "Exposure Value(EV)" -STARTLINE T "import nuke\nfrom widgets import MFX_evTable_v01\nMFX_evTable_v01.create_window(GRADE=nuke.thisNode())"}
+addUserKnob {3 iso "ISO" +STARTLINE +DISABLED}
+iso 100
+addUserKnob {7 f "f /" +STARTLINE +DISABLED}
+f 1.0
+addUserKnob {7 ss "Shutter speed" +STARTLINE +DISABLED}
+ss 1.0
+}
