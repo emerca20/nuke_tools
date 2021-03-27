@@ -1,0 +1,8 @@
+set cut_paste_input [stack 0]
+version 11.3 v5
+push $cut_paste_input
+LensDistortion {
+name LensDistortion1
+label Legacy
+selected true
+}
