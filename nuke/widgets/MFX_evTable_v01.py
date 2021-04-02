@@ -8,7 +8,7 @@ except:
 	import PySide2.QtWidgets as QtWidgets
 	import PySide2.QtCore as QtCore
 	import PySide2.QtGui as QtGui
-from lib import globals
+from .lib import globals
 import nuke
 import __future__
 import math
@@ -28,7 +28,7 @@ class exposureWindow(QtWidgets.QMainWindow):
 			self.italicFont = QtGui.QGuiApplication.font()
 		self.italicFont.setItalic(True)
 
-        	self.setObjectName('mfx_ev')
+		self.setObjectName('mfx_ev')
 		if self.GRADE is not None:
         		self.setWindowTitle('MFX Exposure Value(EV) [' + self.GRADE.name() + ']')
 		else:
@@ -42,12 +42,12 @@ class exposureWindow(QtWidgets.QMainWindow):
 		self.connect(aboutAction, QtCore.SIGNAL('triggered()'), self.showAboutDialog)
 		helpMenu.addAction(aboutAction)
 		MFX_MENU.addMenu(helpMenu)
-			
-        	self.coreWidget = QtWidgets.QWidget()
-        	self.MFX_LAYOUT = QtWidgets.QVBoxLayout(self.coreWidget)
+
+		self.coreWidget = QtWidgets.QWidget()
+		self.MFX_LAYOUT = QtWidgets.QVBoxLayout(self.coreWidget)
 		self.setCentralWidget(self.coreWidget)
         	
-        	self.generate_ui()
+		self.generate_ui()
 		
 	def showAboutDialog(self):
 		v = 1.0
