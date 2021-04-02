@@ -455,7 +455,7 @@ def getNukeMainWindow():
     #-----Referenced codeblock found at: http://community.foundry.com/discuss/topic/107662-----#
     #-Credit for this codeblock should go the Foundry Community forums member, Fredrik Averpil-#
     """Returns Nuke's main window"""
-    for obj in QtWidgets.qApp.topLevelWidgets():
+    for obj in QtWidgets.QApplication.instance().topLevelWidgets():
         if (obj.inherits('QMainWindow') and obj.metaObject().className() == 'Foundry::UI::DockMainWindow'):
             return obj
     else:
