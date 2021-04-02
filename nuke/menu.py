@@ -1,4 +1,4 @@
-from widgets import NUKE_pathConverter_v02
+#from widgets import NUKE_pathConverter_v02
 from widgets import MFX_evTable_v01
 from widgets import hub
 import os
