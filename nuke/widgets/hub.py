@@ -126,5 +126,26 @@ class nukeTestWindow(QtWidgets.QMainWindow):
     		self.centralWidget.setLayout(self.centralLayout)
     		self.setCentralWidget(self.centralWidget)
 
-#thisInstance = nukeTestWindow()
-#thisInstance.show()
+def getNukeMainWindow():
+    #-----Referenced codeblock found at: http://community.foundry.com/discuss/topic/107662-----#
+    #-Credit for this codeblock should go the Foundry Community forums member, Fredrik Averpil-#
+    """Returns Nuke's main window"""
+    for obj in QtWidgets.QApplication.instance().topLevelWidgets():
+    	if (obj.inherits('QMainWindow') and obj.metaObject().className() == 'Foundry::UI::DockMainWindow'):
+        	return obj
+    else:
+    	raise RuntimeError('Could not find DockMainWindow instance')
+    #-------------------------------- End referenced codeblock --------------------------------#
+
+thisInstance = None
+def create_hub_window():
+	global thisInstance
+	if thisInstance is not None:
+		thisInstance.deleteLater()
+		thisInstance == None
+	if thisInstance is None:
+		thisInstance = nukeTestWindow(parent=getNukeMainWindow())
+		print(thisInstance)
+		thisInstance.show()
+		thisInstance.raise_()
+		thisInstance.activateWindow()
