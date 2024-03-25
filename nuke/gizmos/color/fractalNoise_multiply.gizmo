@@ -1,0 +1,28 @@
+set cut_paste_input [stack 0]
+version 12.2 v11
+push $cut_paste_input
+Multiply {
+ value {{"this.clamp ? this.type ? clamp(this.turbulence, 0, 1) : clamp(this.fBm, 0 ,1) : this.type ? this.turbulence : this.fBm"}}
+ name Multiply3
+ label noise
+ selected true
+ xpos -824
+ ypos 6502
+ addUserKnob {20 User}
+ addUserKnob {4 type t "Noise type. Currently supported are <i>fBm</i> (Fractional Brownian Motion) and <i>turbulence</i>, which is similar to <i>fBm</i>, but based on absolute noise values." M {fBm turbulence}}
+ type turbulence
+ addUserKnob {7 fBm t "Uses the knobs below to generate a <b>fBm</b> (Fractional Brownian Motion) noise pattern." +INVISIBLE}
+ fBm {{"fBm((frame/fps)*(2*PI)*this.size.w, (frame/fps)*(2*PI)*this.size.h, this.zoffset, this.octaves, this.lacunarity, this.gain)"}}
+ addUserKnob {7 turbulence t "Uses the knobs below to generate a noise pattern based on <b>turbulence</b>." -STARTLINE +INVISIBLE}
+ turbulence {{"turbulence((frame/fps)*(2*PI)*this.size.w, (frame/fps)*(2*PI)*this.size.h, this.zoffset, this.octaves, this.lacunarity, this.gain)"}}
+ addUserKnob {14 size l x/ysize t "Lowest noise frequency" R 0 100}
+ size 1
+ addUserKnob {7 zoffset l z t "This knob must be animated if you want the noise to change over time. The expression <i>'frame/10'</i> will make it change completely in 10 frames" R 0 10}
+ addUserKnob {3 octaves t "Number of Perlin noise functions to add"}
+ octaves 10
+ addUserKnob {7 lacunarity t "Each octave multiplies frequency by this amount" R 0 10}
+ lacunarity 2
+ addUserKnob {7 gain t "Each octave multiplies amplitude by this amount" R 0.1 1}
+ gain 0.5
+ addUserKnob {6 clamp t "Limits the output noise to values between 0 and 1." +STARTLINE}
+}

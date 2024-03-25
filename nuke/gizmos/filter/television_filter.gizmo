@@ -1,0 +1,367 @@
+set cut_paste_input [stack 0]
+version 12.2 v5
+BackdropNode {
+inputs 0
+name BackdropNode33
+tile_color 0x71c67100
+label "RGB lights"
+note_font_size 24
+selected true
+xpos 3469
+ypos 35871
+bdwidth 1155
+bdheight 851
+z_order 10
+}
+BackdropNode {
+inputs 0
+name BackdropNode60
+tile_color 0xaaaaaa00
+label circles
+note_font_size 42
+selected true
+xpos 4288
+ypos 36005
+bdwidth 316
+bdheight 563
+z_order 11
+}
+BackdropNode {
+inputs 0
+name BackdropNode34
+tile_color 0xaaaaaa00
+label "screen tearing"
+note_font_size 24
+selected true
+xpos 3479
+ypos 36023
+bdwidth 327
+bdheight 510
+z_order 26
+}
+BackdropNode {
+inputs 0
+name BackdropNode35
+tile_color 0x7171c600
+label animated_scanlines
+note_font_size 24
+selected true
+xpos 3270
+ypos 36896
+bdwidth 309
+bdheight 278
+z_order 30
+}
+BackdropNode {
+inputs 0
+name BackdropNode56
+tile_color 0xaaaaaa00
+label squares
+note_font_size 42
+selected true
+xpos 3902
+ypos 35947
+bdwidth 276
+bdheight 658
+z_order 58
+}
+BackdropNode {
+inputs 0
+name BackdropNode37
+tile_color 0x8e8e3800
+label adjust_pixel_size_here
+note_font_size 24
+selected true
+xpos 3934
+ypos 36416
+bdwidth 186
+bdheight 163
+z_order 59
+}
+BackdropNode {
+inputs 0
+name BackdropNode38
+tile_color 0x8e8e3800
+label "use variables in Expression node\\nto adjust screen tearing"
+note_font_size 24
+selected true
+xpos 3637
+ypos 36136
+bdwidth 186
+bdheight 163
+z_order 60
+}
+push $cut_paste_input
+Reformat {
+format "3274 2400 0 0 3274 2400 1 champ_3.5K"
+name Reformat9
+selected true
+xpos 3980
+ypos 35894
+}
+Dot {
+name Dot108
+tile_color 0xa57aaa00
+selected true
+xpos 4014
+ypos 35955
+}
+set N98dc5d00 [stack 0]
+Reformat {
+type scale
+scale {{"1 / parent.Reformat11.scale.main"}}
+resize none
+name Reformat10
+selected true
+xpos 3980
+ypos 36027
+disable {{parent.Reformat11.disable.main x1062 0 1}}
+}
+Dot {
+name Dot58
+tile_color 0xa57aaa00
+selected true
+xpos 4014
+ypos 36103
+}
+set N98d86400 [stack 0]
+Expression {
+channel0 none
+channel1 none
+channel2 none
+channel3 alpha
+expr3 "fmod(y, 4)"
+name Expression4
+label "phosphor/shadow mask"
+selected true
+xpos 4068
+ypos 36188
+}
+push $N98d86400
+Expression {
+expr0 "fmod(x, 3) == 0?1:0.0"
+expr1 "fmod(x, 3) == 1?1:0.0"
+expr2 "fmod(x, 3) == 2?1:0.0"
+name Expression3
+label "RGB lights (rectangles)"
+selected true
+xpos 3912
+ypos 36187
+}
+Grade {
+black 0.5
+white 2
+name Grade11
+label brightness
+selected true
+xpos 3912
+ypos 36258
+}
+Merge2 {
+inputs 2
+operation mask
+bbox B
+output rgb
+name Merge13
+selected true
+xpos 3986
+ypos 36338
+}
+Reformat {
+type scale
+scale 2
+filter impulse
+name Reformat11
+label "pixel_size==\[value this.knob.scale]"
+selected true
+xpos 3986
+ypos 36502
+}
+push $N98dc5d00
+Dot {
+name Dot96
+tile_color 0xa57aaa00
+selected true
+xpos 4458
+ypos 35955
+}
+Expression {
+temp_name0 REPEATS
+temp_expr0 5
+temp_name1 OFFSET
+temp_expr1 1.5
+temp_name2 SS
+temp_expr2 "fmod(x + 0.5,REPEATS) / REPEATS"
+temp_name3 TT
+temp_expr3 "fmod(y + 0.5, REPEATS) / REPEATS"
+expr0 "(fmod(y + 0.5, REPEATS * 2) / REPEATS) < 1 ? SS :fmod(x + 0.5 + (REPEATS * OFFSET),REPEATS) / REPEATS"
+expr1 TT
+expr2 "(fmod(y + 0.5, REPEATS * 2) / REPEATS) < 1 ? floor(fmod(x + 0.5, REPEATS * 3) / REPEATS) : floor(fmod(x + 0.5 + (REPEATS * OFFSET), REPEATS * 3) / REPEATS)"
+channel3 alpha
+name Expression10
+label tile_coordinates
+selected true
+xpos 4424
+ypos 36103
+}
+Expression {
+temp_name0 RADIUS
+temp_expr0 0.4
+temp_name1 FUZZ
+temp_expr1 0.1
+expr0 "b == 0 ? 1 : 0"
+expr1 "b == 1 ? 1 : 0"
+expr2 "b == 2 ? 1 : 0"
+channel3 alpha
+expr3 "1 - smoothstep(RADIUS - FUZZ, RADIUS + FUZZ, sqrt(pow(r - 0.5, 2) + pow(g - 0.5, 2)))"
+name Expression11
+label "RGB lights (circles)"
+selected true
+xpos 4424
+ypos 36188
+}
+set N98dc4800 [stack 0]
+Dot {
+name Dot111
+tile_color 0xcccccc00
+selected true
+xpos 4315
+ypos 36305
+}
+push $N98dc4800
+Grade {
+black 0.5
+white 2
+name Grade19
+label brightness
+selected true
+xpos 4424
+ypos 36297
+}
+Merge2 {
+inputs 2
+operation mask
+bbox B
+output rgb
+name Merge17
+selected true
+xpos 4424
+ypos 36408
+}
+Dot {
+name Dot109
+tile_color 0x4b5ec600
+selected true
+xpos 4458
+ypos 36669
+}
+Dot {
+name Dot59
+tile_color 0x4b5ec600
+selected true
+xpos 4020
+ypos 36669
+}
+push $N98d86400
+Dot {
+name Dot60
+tile_color 0xa57aaa00
+selected true
+xpos 3722
+ypos 36103
+}
+Expression {
+temp_name0 SEED
+temp_expr0 1000
+temp_name1 HNOISE
+temp_expr1 0.00075
+expr0 "((x-0.5)/width) + clamp(fmod( sin(frame * (y/height)) * SEED, 1))*HNOISE"
+expr1 ((y-0.5)/height)
+channel2 none
+name Expression5
+selected true
+xpos 3688
+ypos 36220
+}
+Reformat {
+type scale
+scale {{parent.Reformat11.scale.main}}
+filter impulse
+name Reformat12
+label "pixel_size==\[value this.knob.scale]"
+selected true
+xpos 3688
+ypos 36413
+disable {{parent.Reformat11.disable.main}}
+}
+Dot {
+name Dot61
+tile_color 0xa57aaa00
+selected true
+xpos 3722
+ypos 36492
+}
+push 0
+STMap {
+inputs 2
+uv rgb
+name STMap1
+selected true
+xpos 3489
+ypos 36482
+}
+Merge2 {
+inputs 2
+operation multiply
+bbox B
+output rgb
+mix 0.5
+name Merge12
+selected true
+xpos 3489
+ypos 36665
+}
+Dot {
+name Dot62
+tile_color 0x4b5ec600
+selected true
+xpos 3523
+ypos 36986
+}
+set Nbc112400 [stack 0]
+Remove {
+name Remove3
+selected true
+xpos 3280
+ypos 36976
+}
+Expression {
+channel0 none
+channel1 none
+channel2 none
+channel3 alpha
+expr3 "step(0.5, 0.5 + (0.5 * sin( (((y-0.5)/height) + ((frame/fps))*2) * (2*PI) *150)))"
+name Expression2
+selected true
+xpos 3280
+ypos 37056
+}
+Blur {
+channels alpha
+size 2
+name Blur2
+label "size \[value size]"
+selected true
+xpos 3280
+ypos 37120
+}
+push $Nbc112400
+Grade {
+inputs 1+1
+add 0.02
+black_clamp false
+name Grade12
+selected true
+xpos 3489
+ypos 37132
+}

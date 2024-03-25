@@ -1,0 +1,28 @@
+set cut_paste_input [stack 0]
+version 12.2 v11
+push $cut_paste_input
+Transform {
+ translate {{"( this.type ? turbulence(((frame + this.time_offset.w) / fps) * this.size.w, (frame/fps) * this.size.w, this.zoffset.w, this.octaves.w, this.lacunarity.w, this.gain.w) : fBm(((frame + this.time_offset.w) / fps) * this.size.w, (frame/fps) * this.size.w, this.zoffset.w, this.octaves.w, this.lacunarity.w, this.gain.w) ) * amplitude.w"} {"( this.type ? turbulence(((frame + this.time_offset.h) / fps) * this.size.h, (frame/fps) * this.size.h, this.zoffset.h, this.octaves.h, this.lacunarity.h, this.gain.h) : fBm(((frame + this.time_offset.h) / fps) * this.size.h, (frame/fps) * this.size.h, this.zoffset.h, this.octaves.h, this.lacunarity.h, this.gain.h) ) * amplitude.h"}}
+ center {1712 1101}
+ shutteroffset centred
+ name Transform8
+ label "noise\\n\[if \{\[value translate.x] != 0 || \[value translate.y] != 0\} then \{return \"t \[value translate.x] \[value translate.y]\n\"\} else \{return \"\"\}]\[if \{\[value rotate] != 0\} then \{return \"r \[value rotate]\n\"\} else \{return \"\"\}] \[if \{\[value scale] != 1\} then \{return \"s \[value scale]\"\} else \{return \"\"\}]\[if \{\[value skewX] != 0 || \[value skewY] != 0\} then \{return \"sk \[value skewX] \[value skewY]\n\"\} else \{return \"\"\}]\[if \{\[value motionblur] != 0\} then \{return \"mb \[value motionblur] sh \[value shutter] \[value shutteroffset]\n\"\} else \{return \"\"\}]"
+ selected true
+ xpos -1199
+ ypos 6522
+ addUserKnob {20 User}
+ addUserKnob {14 time_offset R 0 100}
+ time_offset {0 100}
+ addUserKnob {14 amplitude R 0 100}
+ amplitude 10
+ addUserKnob {4 type t "Noise type. Currently supported are <i>fBm</i> (Fractional Brownian Motion) and <i>turbulence</i>, which is similar to <i>fBm</i>, but based on absolute noise values." M {fBm turbulence}}
+ addUserKnob {14 size l x/ysize t "Lowest noise frequency" R 0 100}
+ size 0.001
+ addUserKnob {14 zoffset l z t "This knob must be animated if you want the noise to change over time. The expression <i>'frame/10'</i> will make it change completely in 10 frames" R 0 100}
+ addUserKnob {14 octaves t "Number of Perlin noise functions to add. \n\nNote, this number is rounded down, to the lowest integer." R 0 100}
+ octaves 10
+ addUserKnob {14 lacunarity t "Each octave multiplies frequency by this amount" R 0 100}
+ lacunarity 2
+ addUserKnob {14 gain t "Each octave multiplies amplitude by this amount" R 0 100}
+ gain 1
+}

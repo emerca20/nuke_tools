@@ -1,0 +1,193 @@
+set cut_paste_input [stack 0]
+version 11.3 v4
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0x8e388e00
+label Radius
+note_font_size 42
+selected true
+xpos 6525
+ypos 12068
+bdwidth 140
+bdheight 127
+}
+BackdropNode {
+inputs 0
+name BackdropNode4
+tile_color 0x388e8e00
+label "for_script_debugging\\n"
+note_font_size 24
+selected true
+xpos 4880
+ypos 12334
+bdwidth 253
+bdheight 157
+}
+Axis2 {
+inputs 0
+name Axis6
+selected true
+xpos 6429
+ypos 12421
+}
+Axis2 {
+inputs 0
+translate {{"cos((((parent.Roto7.bbox.r - parent.Roto7.bbox.x) / 2) + parent.Roto7.bbox.x + 0.5) / this.format.width * (2 * PI)) * cos(((((parent.Roto7.bbox.t - parent.Roto7.bbox.y) / 2) + parent.Roto7.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)) * parent.NoOp1.radius"} {"sin(((((parent.Roto7.bbox.t - parent.Roto7.bbox.y) / 2) + parent.Roto7.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)) * parent.NoOp1.radius"} {"sin((((parent.Roto7.bbox.r - parent.Roto7.bbox.x) / 2) + parent.Roto7.bbox.x + 0.5) / this.format.width * (2 * PI)) * cos(((((parent.Roto7.bbox.t - parent.Roto7.bbox.y) / 2) + parent.Roto7.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)) * parent.NoOp1.radius"}}
+name Axis7
+selected true
+xpos 6425
+ypos 12264
+}
+push $cut_paste_input
+Card2 {
+uniform_scale 0.29
+control_points {3 3 3 6 
+
+1 {-0.5 -0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0 0 0} 
+1 {0 -0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {0.5 0 0} 
+1 {0.5 -0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666865 0} 0 {0 0 0} 0 {1 0 0} 
+1 {-0.5 0 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0 0.5 0} 
+1 {0 0 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {0.5 0.5 0} 
+1 {0.5 0 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0.1666666716 0} 0 {0 -0.1666666716 0} 0 {1 0.5 0} 
+1 {-0.5 0.5 0} 0 {0.1666666865 0 0} 0 {0 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0 1 0} 
+1 {0 0.5 0} 0 {0.1666666716 0 0} 0 {-0.1666666716 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {0.5 1 0} 
+1 {0.5 0.5 0} 0 {0 0 0} 0 {-0.1666666865 0 0} 0 {0 0 0} 0 {0 -0.1666666865 0} 0 {1 1 0} }
+name Card8
+selected true
+xpos 6229
+ypos 12281
+}
+TransformGeo {
+inputs 3
+name TransformGeo6
+selected true
+xpos 6229
+ypos 12442
+}
+StickyNote {
+inputs 0
+name StickyNote1
+label "the horizontal center of the roto shape's bounding box:\n((parent.Roto1.bbox.r - parent.Roto1.bbox.x) / 2) + parent.Roto1.bbox.x\n\nthe vertical center of the roto shape's bounding box:\n((parent.Roto1.bbox.t - parent.Roto1.bbox.y) / 2) + parent.Roto1.bbox.y\n\nthis center point (x,y) will be the basis of the longitude (x) and latitude (y) coordinates\\nof the center point when overlaid ontop of a latlong texture (the reformat that\\ndrives the roto node here should be the same resolution as the latlong texture,\\nso that the shape aligns with what is being roto'd)."
+selected true
+xpos 5314
+ypos 12305
+}
+StickyNote {
+inputs 0
+name StickyNote2
+label "the center point is currently in absolute XY coordinates.  it needs to be an angle, in radians.\n\nfirst, the center point must be normalized into a 0 to 1 range. divide each axis by it's maximum\n(the maximum would be the format resolution)(I offset the coordinates by half a pixel, 0.5,\nin order to use the center of each square pixel).\n\nx= (((parent.Roto1.bbox.r - parent.Roto1.bbox.x) / 2) + parent.Roto1.bbox.x + 0.5) / this.format.width\ny= ((((parent.Roto1.bbox.t - parent.Roto1.bbox.y) / 2) + parent.Roto1.bbox.y + 0.5) / this.format.height\n\nthe normalized centerpoint can then be mapped to the latlong coordinates, where the x axis represents\nlongitude, and the y axis represents latitude. (the Renderman doc I was referencing says the x axis\nranges from 0 degrees to 360 degrees (2pi radians), and the y axis ranges from -90 degrees (-pi/2 radians)\nto 90 degrees (pi/2 radians)).\n\nx= (((parent.Roto1.bbox.r - parent.Roto1.bbox.x) / 2) + parent.Roto1.bbox.x + 0.5) / this.format.width * (2 * PI)\ny= ((((parent.Roto1.bbox.t - parent.Roto1.bbox.y) / 2) + parent.Roto1.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)\n\n**NOTE**when mapping the y axis, I first mapped it to range between 0 and 180degrees (pi radians),\nand then offset it by -90degrees (-pi/2)."
+selected true
+xpos 5305
+ypos 12453
+}
+NoOp {
+inputs 0
+name NoOp1
+selected true
+xpos 6555
+ypos 12155
+addUserKnob {20 User}
+addUserKnob {7 radius}
+radius 1
+}
+Reformat {
+inputs 0
+name Reformat3
+selected true
+xpos 5194
+ypos 12328
+}
+Roto {
+output alpha
+cliptype none
+curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 2097664}
+    {t x44800000 x44428000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}
+    {curvegroup Bezier1 512 bezier
+     {{cc
+       {f 8192}
+       {p
+        {x40a00000 x41f00000}
+        {x42b90037 x444cd9ad}
+        {xc0a00000 xc1f00000}
+        {xc2cc2ea8 xc28d7428}
+        {x432d8018 x442ed9ad}
+        {x423ccc70 x4202cb80}
+        {x409dee00 xc2340750}
+        {x4387400c x444559ad}
+        {xc0a00200 x42366480}
+        {x42480000 xc0a00000}
+        {x433c8014 x445e59ad}
+        {xc2480000 x40a00000}}}
+      {cc
+       {f 8192}
+       {p
+        {x40a00000 x41f00000}
+        {}
+        {xc0a00000 xc1f00000}
+        {xc2cc2ea8 xc28d7428}
+        {}
+        {x423ccc70 x4202cb80}
+        {x409dee00 xc2340750}
+        {}
+        {xc0a00200 x42366480}
+        {x42480000 xc0a00000}
+        {}
+        {xc2480000 x40a00000}}}}
+     {tx 1 x44863800 x447dc000}
+     {a osw x41200000 osf 0 str 1 spx x44800000 spy x44428000 sb 1 tt x40800000}}}}}}
+toolbox {selectAll {
+  { selectAll str 1 ssx 1 ssy 1 sf 1 }
+  { selectCurves str 1 ssx 1 ssy 1 sf 1 }
+  { selectPoints str 1 ssx 1 ssy 1 sf 1 }
+  { selectFeatherPoints str 1 ssx 1 ssy 1 sf 1 }
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 tt 4 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+toolbar_brush_hardness 0.200000003
+toolbar_source_transform_scale {1 1}
+toolbar_source_transform_center {1024 778}
+colorOverlay {0 0 0 0}
+lifetime_type "all frames"
+motionblur_shutter_offset_type centred
+source_black_outside true
+link_output false
+name Roto7
+selected true
+xpos 5194
+ypos 12396
+}
+Expression {
+expr0 "(((parent.Roto1.bbox.r - parent.Roto1.bbox.x) / 2) + parent.Roto1.bbox.x + 0.5) / this.format.width * (2 * PI)"
+expr1 "((((parent.Roto1.bbox.t - parent.Roto1.bbox.y) / 2) + parent.Roto1.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)"
+name Expression2
+selected true
+xpos 4955
+ypos 12424
+}
+StickyNote {
+inputs 0
+name StickyNote8
+label "the Card node here has all default/unchanged values (it's at the origin\[0,0,0]).\n\nthe TransformGeo node here also has all default/unchanged values.  The 'axis' input is used to move the card to the 3D point, that was converted from the centerpoint of\nthe roto shape using math from an old RenderMan 20 document.  Where the longitude is the 2D X-axis and the latitude is the 2D Y-axis.\n\nhttps://renderman.pixar.com/resources/RenderMan_20/usingExternalResources.html#rimakelatlongenvironment\n\nexample==\nx= cos(longitude) * cos(latitude)\ny= sin(longitude) * cos(latitude)\nz= sin(latitude)\n\nactual==\nx= cos((((parent.Roto7.bbox.r - parent.Roto7.bbox.x) / 2) + parent.Roto7.bbox.x + 0.5) / this.format.width * (2 * PI)) * cos(((((parent.Roto7.bbox.t - parent.Roto7.bbox.y) / 2) + parent.Roto7.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)) * parent.NoOp1.radius\ny= sin(((((parent.Roto7.bbox.t - parent.Roto7.bbox.y) / 2) + parent.Roto7.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)) * parent.NoOp1.radius\nz= sin((((parent.Roto7.bbox.r - parent.Roto7.bbox.x) / 2) + parent.Roto7.bbox.x + 0.5) / this.format.width * (2 * PI)) * cos(((((parent.Roto7.bbox.t - parent.Roto7.bbox.y) / 2) + parent.Roto7.bbox.y + 0.5) / this.format.height * PI) - (PI / 2)) * parent.NoOp1.radius\n\n**NOTE** here I swapped the Y and the Z axis to account for the Renderman docs referring to a LeftHand coordinate system, but Nuke uses a RightHand coordinate system.\n\nthe 'look' input of the TransformGeo node is connected to a default/unchanged Axis node, at position (0,0,0), to keep the card facing the origin.\n\nI altered Renderman's math here to include a radius slider (controlled in the NoOp1 node), because by default the radius is '1.'  The radius here should be set to the same\nradius as the original environment sphere.  If this works, then we can figure out a cleaner/more user friendly way to include this slider rather than an extra NoOp node."
+selected true
+xpos 6545
+ypos 12233
+}

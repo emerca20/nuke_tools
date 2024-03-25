@@ -1,0 +1,275 @@
+set cut_paste_input [stack 0]
+version 11.3 v4
+BackdropNode {
+inputs 0
+name BackdropNode6
+tile_color 0xaaaaaa00
+label "'add' and 'multiply' here can be used to shift edge\\n of the spill matte"
+note_font_size 42
+selected true
+xpos 4870
+ypos 2080
+bdwidth 857
+bdheight 466
+z_order -1
+}
+BackdropNode {
+inputs 0
+name BackdropNode4
+tile_color 0x8e8e3800
+label "some denoise method to reduce\\npossible sharpening artifacts"
+note_font_size 42
+selected true
+xpos 4883
+ypos 1792
+bdwidth 662
+bdheight 183
+}
+BackdropNode {
+inputs 0
+name BackdropNode5
+tile_color 0x8e8e3800
+label "desired despill method of choice\\n(there should be no luma currection here)"
+note_font_size 42
+selected true
+xpos 4880
+ypos 2253
+bdwidth 837
+bdheight 194
+}
+BackdropNode {
+inputs 0
+name BackdropNode7
+tile_color 0x8e8e3800
+label "view the spill matte here"
+note_font_size 42
+selected true
+xpos 4878
+ypos 2743
+bdwidth 662
+bdheight 183
+}
+BackdropNode {
+inputs 0
+name BackdropNode8
+tile_color 0x8e388e00
+label "this is where the spill\\nmatte corrects the plate"
+note_font_size 42
+selected true
+xpos 4699
+ypos 3130
+bdwidth 463
+bdheight 288
+}
+push $cut_paste_input
+NoOp {
+name NoOp1
+label Plate_RGBs
+selected true
+xpos 4416
+ypos 1594
+}
+Dot {
+name Dot19
+tile_color 0xcccccc00
+selected true
+xpos 4450
+ypos 1709
+}
+set Nb4d6acd0 [stack 0]
+Dot {
+name Dot20
+tile_color 0xcccccc00
+selected true
+xpos 4743
+ypos 1709
+}
+set N8e91c8c0 [stack 0]
+Dot {
+name Dot21
+tile_color 0xcccccc00
+selected true
+xpos 4743
+ypos 2672
+}
+set N985fe280 [stack 0]
+push $N8e91c8c0
+Dot {
+name Dot22
+tile_color 0xcccccc00
+selected true
+xpos 4927
+ypos 1709
+}
+Denoise2 {
+lumablend 1
+"Noise Analysis" 1
+analysisRegion {4 919 184 1705}
+analysisFrame 1039
+"Tune Frequencies" 1
+highAmount 2.35
+mediumAmount 3
+lowAmount 2.4
+processVeryLow true
+"Tune Channels" 1
+needsAnalyzing false
+profileCurve {profile {curve 0 x0.125 0 0 0 0 0 0 0 0}}
+serializeKnob "2.056792006e-02 5.025519133e-01 4.986595809e-01
+2.774956811e-04 5.359596980e-05 1.984980918e-05
+2.774956811e-04 5.359596980e-05 1.984980918e-05
+1.171539625e-04 2.222449803e-05 6.527712685e-06
+0.000000000e+00 0.000000000e+00 0.000000000e+00
+1.197120146e-04 5.865045750e-05 3.299455420e-05
+1.197120146e-04 5.865045750e-05 3.299455420e-05
+7.799556624e-05 1.617133785e-05 5.716389296e-06
+0.000000000e+00 0.000000000e+00 0.000000000e+00
+6.475488044e-05 6.921990280e-05 3.577206371e-05
+6.475488044e-05 6.921990280e-05 3.577206371e-05
+3.826420289e-05 2.088289330e-05 1.233272360e-05
+0.000000000e+00 0.000000000e+00 0.000000000e+00
+3.527289300e-05 5.012937982e-05 2.469471838e-05
+3.527289300e-05 5.012937982e-05 2.469471838e-05
+1.930429244e-05 2.521671558e-05 1.381416041e-05
+0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 
+14388466433740603476"
+name Denoise2
+selected true
+xpos 4893
+ypos 1923
+}
+Add {
+channels {rgba.red rgba.green -rgba.blue none}
+value {-0.005 -0.005 0 0}
+value_panelDropped true
+name Add2
+selected true
+xpos 4893
+ypos 2202
+}
+OFXuk.co.thefoundry.keylight.keylight_v201 {
+show "Final Result"
+unPreMultiply false
+screenColour {0 0 1}
+screenGain 1
+screenBalance 0.95
+alphaBias {0.5 0.5 0.5}
+despillBias {0.5 0.5 0.5}
+gangBiases true
+preBlur 0
+"Screen Matte" 0
+screenClipMin 0
+screenClipMax 1
+screenClipRollback 0
+screenGrowShrink 0
+screenSoftness 0
+screenDespotBlack 0
+screenDespotWhite 0
+screenReplaceMethod "Soft Colour"
+screenReplaceColour {0.5 0.5 0.5}
+Tuning 0
+midPoint 0.5
+lowGain 1
+midGain 1
+highGain 1
+"Inside Mask" 0
+sourceAlphaHandling Ignore
+insideReplaceMethod "Soft Colour"
+insideReplaceColour {0.5 0.5 0.5}
+Crops 0
+SourceXMethod Colour
+SourceYMethod Colour
+SourceEdgeColour 0
+SourceCropL 0
+SourceCropR 1
+SourceCropB 0
+SourceCropT 1
+balanceSet false
+insideComponent None
+outsideComponent None
+cacheBreaker true
+name Keylight2
+selected true
+xpos 4893
+ypos 2395
+}
+Multiply {
+channels {-rgba.red -rgba.green rgba.blue none}
+value 0.7
+name Multiply3
+selected true
+xpos 4893
+ypos 2518
+}
+ChannelMerge {
+inputs 2
+A rgba.blue
+operation minus
+B rgba.blue
+output rgba.blue
+name ChannelMerge4
+selected true
+xpos 4893
+ypos 2657
+}
+Remove {
+operation keep
+channels {-rgba.red -rgba.green rgba.blue none}
+name Remove3
+selected true
+xpos 4893
+ypos 2879
+}
+Shuffle {
+in rgb
+red blue
+green blue
+out rgb
+name Shuffle6
+label "in \[value in]-->out \[value out]"
+selected true
+xpos 4893
+ypos 3003
+}
+Grade {
+white {0.2 0.2 1 1}
+white_panelDropped true
+black_clamp false
+name Grade4
+selected true
+xpos 4893
+ypos 3284
+}
+Dot {
+name Dot23
+tile_color 0x7aa9ff00
+selected true
+xpos 4927
+ypos 3378
+}
+push $N985fe280
+MergeExpression {
+inputs 2
+expr0 Br+Ar
+expr1 Bg+Ag
+expr2 Bb-Ab
+name MergeExpression2
+selected true
+xpos 4709
+ypos 3375
+}
+Dot {
+name Dot24
+tile_color 0x4b5ec600
+selected true
+xpos 4743
+ypos 3502
+}
+push $Nb4d6acd0
+Keymix {
+inputs 2
+channels rgb
+name Keymix3
+selected true
+xpos 4416
+ypos 3499
+}

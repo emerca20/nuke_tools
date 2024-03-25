@@ -1,0 +1,28 @@
+set cut_paste_input [stack 0]
+version 12.2 v11
+push $cut_paste_input
+Expression {
+temp_name0 fBm
+temp_expr0 "fBm(r * this.size.w, g*this.size.h, this.zoffset, this.octaves, this.lacunarity, this.gain)"
+temp_name1 turbulence
+temp_expr1 "turbulence(r * this.size.w, g*this.size.h, this.zoffset, this.octaves, this.lacunarity, this.gain)"
+expr0 "this.type ? turbulence : fBm"
+channel1 none
+channel2 none
+name Expression12
+label Noise
+selected true
+xpos 5424
+ypos 25662
+addUserKnob {20 User}
+addUserKnob {4 type t "Noise type. Currently supported are <i>fBm</i> (Fractional Brownian Motion) and <i>turbulence</i>, which is similar to <i>fBm</i>, but based on absolute noise values." M {fBm turbulence "" "" "" ""}}
+addUserKnob {14 size l x/ysize t "Lowest noise frequency" R 0 100}
+size 200
+addUserKnob {7 zoffset l z t "This knob must be animated if you want the noise to change over time. The expression <i>'frame/10'</i> will make it change completely in 10 frames" R 0 10}
+addUserKnob {3 octaves t "Number of Perlin noise functions to add"}
+octaves 10
+addUserKnob {7 lacunarity t "Each octave multiplies frequency by this amount" R 1 10}
+lacunarity 2
+addUserKnob {7 gain t "Each octave multiplies amplitude by this amount" R 0.1 1}
+gain 0.5
+}

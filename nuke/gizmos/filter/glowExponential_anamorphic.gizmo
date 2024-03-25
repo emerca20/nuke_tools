@@ -1,0 +1,781 @@
+set cut_paste_input [stack 0]
+version 12.2 v11
+push $cut_paste_input
+Group {
+ name Group1
+ tile_color 0xc87200ff
+ label Glow_Exponential_Anamorphic
+ selected true
+ xpos -865
+ ypos 1
+ addUserKnob {20 ge_anim l Glow}
+ addUserKnob {6 falloff_color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 core_color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 glow_ctrls l "@b;Glow:"}
+ addUserKnob {7 size t "Size of the glow" R 0 100}
+ size 100
+ addUserKnob {7 intensity t "Brightness of the Glow" R 0 10}
+ intensity 10
+ addUserKnob {7 falloff t "Adjust the light falloff of the glow. Higher values will have a longer falloff, resulting in visually bigger glows."}
+ falloff 0.75
+ addUserKnob {26 glow_highlights l "@b;Highlights:"}
+ addUserKnob {41 range t "Luma key to define which parts of the image will glow." T Keyer1.range}
+ addUserKnob {26 glow_colors l "@b;Glow Colors:"}
+ addUserKnob {7 saturation l "color from img" t "By default the glow takes on the colors of the plate. By using this knob you can desaturate the color of the glow."}
+ saturation 1
+ addUserKnob {18 core_color l "core re-color" t "Re-color the core of the glow. Use the core threshold to define which parts of the glow are core or falloff."}
+ core_color {1 1 1}
+ addUserKnob {18 falloff_color l "falloff re-color" t "Re-color the falloff of the glow. Use the core threshold to define which parts of the glow are core or falloff."}
+ falloff_color {1 1 1}
+ addUserKnob {7 threshold l "core threshold" t "Define which parts of the glow are core or falloff."}
+ threshold 1
+ addUserKnob {26 glow_options l "@b;Options:"}
+ addUserKnob {14 aspect l "aspect ratio" t "Set the aspect ratio for your glow. Streaky results can be obtained by changing the ratio here." R 0 100}
+ aspect {1 0.5}
+ addUserKnob {6 glow_only l "Glow only" t "By default the glow is added onto the plate. Checking this box will output the glow only. " +STARTLINE}
+ addUserKnob {6 crop l "Crop to Format" t "This glow can expand the bounding box to massive values, checking this box can prevent your bbox from getting unmanageable." +STARTLINE}
+ crop true
+ addUserKnob {7 overscan l "overscan (%)" t "If you are cropping to format but originally had some values outside the format, you can add some overscan here to preserve these. The values are a percentage of the format size." R 0 100}
+ overscan 10
+ addUserKnob {7 mix t "Mix back with the original plate (or black, if glow only is enabled)"}
+ mix 1
+ addUserKnob {20 mask l Mask}
+ addUserKnob {41 lut l "" +STARTLINE T ColorLookup1.lut}
+ addUserKnob {6 side_mask l "Side mask" t "The side mask will fade down any glowing objects as they approach the left and right sides of the frame.  Use the above LookUp curve to edit  how quickly they will fade." +STARTLINE}
+ side_mask true
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x8e8e3800
+  label arms(?)
+  note_font_size 42
+  xpos 1002
+  ypos 769
+  bdwidth 540
+  bdheight 325
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0xaaaaaa00
+  label core
+  note_font_size 42
+  xpos 452
+  ypos 768
+  bdwidth 540
+  bdheight 325
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x71c67100
+  label lens
+  note_font_size 42
+  xpos 131
+  ypos 75
+  bdwidth 105
+  bdheight 384
+ }
+ Input {
+  inputs 0
+  name img
+  label input_0
+  xpos 0
+  ypos -8
+ }
+ Dot {
+  name Dot1
+  tile_color 0xcccccc00
+  xpos 34
+  ypos 94
+ }
+set N178479d0 [stack 0]
+ Dot {
+  name Dot24
+  tile_color 0xcccccc00
+  xpos 34
+  ypos 2096
+ }
+set N18b7b970 [stack 0]
+push $N178479d0
+ Dot {
+  name Dot27
+  tile_color 0xcccccc00
+  xpos 175
+  ypos 94
+ }
+set N17c6d4f0 [stack 0]
+ Remove {
+  name Remove3
+  xpos 141
+  ypos 155
+ }
+ Expression {
+  channel0 none
+  channel1 none
+  channel2 none
+  channel3 alpha
+  expr3 "clamp(lerp(0 , 2, x/width)) * (clamp(lerp(0 , 2, 1 - (x/width))))"
+  name Expression1
+  xpos 141
+  ypos 234
+ }
+ Shuffle {
+  in alpha
+  out rgb
+  name Shuffle1
+  label "in \[value in]-->out \[value out]"
+  xpos 141
+  ypos 320
+ }
+ ColorLookup {
+  lut {master {curve L 0 s0 t2.25 v1.140653729 C k 1 s0}
+    red {}
+    green {}
+    blue {}
+    alpha {}}
+  name ColorLookup1
+  xpos 141
+  ypos 415
+ }
+ Dot {
+  name Dot26
+  tile_color 0x7aa9ff00
+  xpos 175
+  ypos 474
+ }
+ Input {
+  inputs 0
+  name mask
+  label input_1
+  xpos 312
+  ypos 261
+  number 1
+ }
+push $N17c6d4f0
+ NoOp {
+  name NoOp1
+  label CTRL
+  xpos 462
+  ypos 84
+  addUserKnob {20 User}
+  addUserKnob {7 falloff R 0 2}
+  falloff {{"max(parent.falloff / 2 + 0.5, 0.0001)"}}
+  addUserKnob {7 falloff_intensity}
+  falloff_intensity {{"this.falloff + pow(falloff, 2) + pow(falloff, 3) + pow(falloff, 4) + pow(falloff, 5) + pow(falloff, 6) + pow(falloff, 7) + pow(falloff, 8) + pow(falloff, 9) + pow(falloff, 10)"}}
+  addUserKnob {14 size R 0 100}
+  size {{"(parent.size / 20) * parent.aspect.w"} {"(parent.size / 20) * parent.aspect.h"}}
+  addUserKnob {7 intensity}
+  intensity {{"parent.intensity / this.falloff_intensity"}}
+  addUserKnob {7 core}
+  core {{parent.threshold}}
+  addUserKnob {7 core_length}
+  core_length {{"sqrt(pow(parent.core_color.r, 2) + pow(parent.core_color.g, 2) + pow(parent.core_color.b, 2)) / sqrt(3)"}}
+  addUserKnob {7 falloff_length}
+  falloff_length {{"sqrt(pow(parent.falloff_color.r, 2) + pow(parent.falloff_color.g, 2) + pow(parent.falloff_color.b, 2)) / sqrt(3)"}}
+ }
+ Keyer {
+  operation "luminance key"
+  name Keyer1
+  xpos 462
+  ypos 170
+ }
+ ChannelMerge {
+  inputs 2
+  operation in
+  name ChannelMerge1
+  xpos 462
+  ypos 255
+  disable {{"!\[exists parent.input1]"}}
+ }
+ Premult {
+  name Premult1
+  xpos 462
+  ypos 377
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output rgb
+  name Merge12
+  xpos 462
+  ypos 470
+  disable {{!parent.side_mask}}
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove1
+  xpos 462
+  ypos 541
+ }
+ Multiply {
+  value {{parent.NoOp1.intensity}}
+  name Multiply1
+  xpos 462
+  ypos 615
+ }
+ Saturation {
+  saturation {{parent.saturation}}
+  name Saturation1
+  xpos 462
+  ypos 699
+ }
+ Dot {
+  name Dot2
+  tile_color 0x7aa9ff00
+  xpos 496
+  ypos 770
+ }
+set N17cc09f0 [stack 0]
+ Dot {
+  name Dot3
+  tile_color 0x7aa9ff00
+  xpos 606
+  ypos 770
+ }
+set N182fca50 [stack 0]
+ Dot {
+  name Dot4
+  tile_color 0x7aa9ff00
+  xpos 716
+  ypos 770
+ }
+set N10c6fd10 [stack 0]
+ Dot {
+  name Dot5
+  tile_color 0x7aa9ff00
+  xpos 826
+  ypos 770
+ }
+set N17c56030 [stack 0]
+ Dot {
+  name Dot6
+  tile_color 0x7aa9ff00
+  xpos 936
+  ypos 770
+ }
+set N17daacd0 [stack 0]
+ Dot {
+  name Dot7
+  tile_color 0x7aa9ff00
+  xpos 1046
+  ypos 770
+ }
+set N17a41390 [stack 0]
+ Dot {
+  name Dot8
+  tile_color 0x7aa9ff00
+  xpos 1156
+  ypos 770
+ }
+set N10e53cb0 [stack 0]
+ Dot {
+  name Dot9
+  tile_color 0x7aa9ff00
+  xpos 1266
+  ypos 770
+ }
+set N17837ad0 [stack 0]
+ Dot {
+  name Dot10
+  tile_color 0x7aa9ff00
+  xpos 1376
+  ypos 770
+ }
+set N10c85890 [stack 0]
+ Dot {
+  name Dot11
+  tile_color 0x7aa9ff00
+  xpos 1486
+  ypos 770
+ }
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode9.size.w * 2"} {"parent.FilterErode9.size.h * 2"}}
+  filter quadratic
+  name FilterErode10
+  label "size \[value size]"
+  xpos 1452
+  ypos 853
+ }
+ Blur {
+  size {{"parent.Blur9.size * 2"} {"parent.Blur9.size * 2"}}
+  crop false
+  name Blur10
+  xpos 1452
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 10)"}}
+  name Multiply11
+  xpos 1452
+  ypos 1052
+ }
+ Dot {
+  name Dot20
+  tile_color 0x7aa9ff00
+  xpos 1486
+  ypos 1368
+ }
+push $N10c85890
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode8.size.w * 2"} {"parent.FilterErode8.size.h * 2"}}
+  filter quadratic
+  name FilterErode9
+  label "size \[value size]"
+  xpos 1342
+  ypos 853
+ }
+ Blur {
+  size {{"parent.Blur8.size * 2"} {"parent.Blur8.size * 2"}}
+  crop false
+  name Blur9
+  xpos 1342
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 9)"}}
+  name Multiply10
+  xpos 1342
+  ypos 1051
+ }
+ Dot {
+  name Dot16
+  tile_color 0x7aa9ff00
+  xpos 1376
+  ypos 1342
+ }
+push $N17837ad0
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode7.size.w * 2"} {"parent.FilterErode7.size.h * 2"}}
+  filter quadratic
+  name FilterErode8
+  label "size \[value size]"
+  xpos 1232
+  ypos 851
+ }
+ Blur {
+  size {{"parent.Blur7.size * 2"} {"parent.Blur7.size * 2"}}
+  crop false
+  name Blur8
+  xpos 1232
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 8)"}}
+  name Multiply9
+  xpos 1232
+  ypos 1051
+ }
+ Dot {
+  name Dot17
+  tile_color 0x7aa9ff00
+  xpos 1266
+  ypos 1316
+ }
+push $N10e53cb0
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode6.size.w * 2"} {"parent.FilterErode6.size.h * 2"}}
+  filter quadratic
+  name FilterErode7
+  label "size \[value size]"
+  xpos 1122
+  ypos 850
+ }
+ Blur {
+  size {{"parent.Blur6.size * 2"} {"parent.Blur6.size * 2"}}
+  crop false
+  name Blur7
+  xpos 1122
+  ypos 956
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 7)"}}
+  name Multiply8
+  xpos 1122
+  ypos 1051
+ }
+ Dot {
+  name Dot18
+  tile_color 0x7aa9ff00
+  xpos 1156
+  ypos 1290
+ }
+push $N17a41390
+ FilterErode {
+  channels rgb
+  size {-128 2}
+  filter quadratic
+  name FilterErode6
+  label "size \[value size]"
+  xpos 1012
+  ypos 849
+ }
+ Blur {
+  size {{"parent.NoOp1.size * 2"} {"parent.NoOp1.size * 2"}}
+  crop false
+  name Blur6
+  xpos 1012
+  ypos 956
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 6)"}}
+  name Multiply7
+  xpos 1012
+  ypos 1050
+ }
+ Dot {
+  name Dot19
+  tile_color 0x7aa9ff00
+  xpos 1046
+  ypos 1264
+ }
+push $N17daacd0
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode4.size.w * 2"} {"parent.FilterErode4.size.h * 2"}}
+  filter quadratic
+  name FilterErode5
+  label "size \[value size]"
+  xpos 902
+  ypos 850
+ }
+ Blur {
+  size {{"parent.Blur4.size * 2"} {"parent.Blur4.size * 2"}}
+  crop false
+  name Blur5
+  xpos 902
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 5)"}}
+  name Multiply6
+  xpos 902
+  ypos 1050
+ }
+ Dot {
+  name Dot14
+  tile_color 0x7aa9ff00
+  xpos 936
+  ypos 1238
+ }
+push $N17c56030
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode3.size.w * 2"} {"parent.FilterErode3.size.h * 2"}}
+  filter quadratic
+  name FilterErode4
+  label "size \[value size]"
+  xpos 792
+  ypos 849
+ }
+ Blur {
+  size {{"parent.Blur3.size * 2"} {"parent.Blur3.size * 2"}}
+  crop false
+  name Blur4
+  xpos 792
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 4)"}}
+  name Multiply5
+  xpos 792
+  ypos 1051
+ }
+ Dot {
+  name Dot15
+  tile_color 0x7aa9ff00
+  xpos 824
+  ypos 1212
+ }
+push $N10c6fd10
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode2.size.w * 2"} {"parent.FilterErode2.size.h * 2"}}
+  filter quadratic
+  name FilterErode3
+  label "size \[value size]"
+  xpos 682
+  ypos 848
+ }
+ Blur {
+  size {{"parent.Blur2.size * 2"} {"parent.Blur2.size * 2"}}
+  crop false
+  name Blur3
+  xpos 682
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 3)"}}
+  name Multiply4
+  xpos 682
+  ypos 1051
+ }
+ Dot {
+  name Dot13
+  tile_color 0x7aa9ff00
+  xpos 716
+  ypos 1186
+ }
+push $N182fca50
+ FilterErode {
+  channels rgb
+  size {{"parent.FilterErode1.size.w * 2"} {"parent.FilterErode1.size.h * 2"}}
+  filter quadratic
+  name FilterErode2
+  label "size \[value size]"
+  xpos 572
+  ypos 848
+ }
+ Blur {
+  size {{"parent.Blur1.size * 2"} {"parent.Blur1.size * 2"}}
+  crop false
+  name Blur2
+  xpos 572
+  ypos 955
+ }
+ Multiply {
+  value {{"pow(parent.NoOp1.falloff, 2)"}}
+  name Multiply3
+  xpos 572
+  ypos 1051
+ }
+ Dot {
+  name Dot12
+  tile_color 0x7aa9ff00
+  xpos 606
+  ypos 1160
+ }
+push $N17cc09f0
+ FilterErode {
+  channels rgb
+  size {-1 0.5}
+  filter quadratic
+  name FilterErode1
+  label "size \[value size]"
+  xpos 462
+  ypos 849
+ }
+ Blur {
+  size {{"parent.NoOp1.size * 2"} {"parent.NoOp1.size * 2"}}
+  crop false
+  name Blur1
+  xpos 462
+  ypos 955
+ }
+ Multiply {
+  value {{parent.NoOp1.falloff}}
+  name Multiply2
+  xpos 462
+  ypos 1051
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge1
+  xpos 462
+  ypos 1156
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge2
+  xpos 462
+  ypos 1182
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge3
+  xpos 462
+  ypos 1208
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge4
+  xpos 462
+  ypos 1234
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge5
+  xpos 462
+  ypos 1260
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge6
+  xpos 462
+  ypos 1286
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge7
+  xpos 462
+  ypos 1312
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge8
+  xpos 462
+  ypos 1338
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  output rgb
+  name Merge9
+  xpos 462
+  ypos 1364
+ }
+ Dot {
+  name Dot21
+  tile_color 0x4b5ec600
+  xpos 496
+  ypos 1447
+ }
+set N178ea7e0 [stack 0]
+ Dot {
+  name Dot22
+  tile_color 0x4b5ec600
+  xpos 606
+  ypos 1447
+ }
+ Grade {
+  whitepoint {{parent.NoOp1.core}}
+  white_clamp true
+  name Grade2
+  xpos 572
+  ypos 1525
+ }
+ Gamma {
+  channels rgb
+  value {{"parent.falloff_color.r / parent.NoOp1.falloff_length"} {"parent.falloff_color.g / parent.NoOp1.falloff_length"} {"parent.falloff_color.b / parent.NoOp1.falloff_length"} 1}
+  name Gamma2
+  xpos 572
+  ypos 1607
+ }
+ Grade {
+  whitepoint {{parent.NoOp1.core}}
+  reverse true
+  name Grade3
+  xpos 572
+  ypos 1692
+ }
+ Dot {
+  name Dot23
+  tile_color 0x7aa9ff00
+  xpos 606
+  ypos 1773
+ }
+push $N178ea7e0
+ Clamp {
+  minimum {{parent.NoOp1.core}}
+  maximum_enable false
+  name Clamp1
+  xpos 462
+  ypos 1521
+ }
+ Grade {
+  add {{"1 - parent.NoOp1.core"}}
+  name Grade1
+  xpos 462
+  ypos 1608
+ }
+ Gamma {
+  channels rgb
+  value {{"1 + (1 - parent.core_color.r) / parent.NoOp1.core_length"} {"1 + (1 - parent.core_color.g) / parent.NoOp1.core_length"} {"1 + (1 - parent.core_color.b) / parent.NoOp1.core_length"} 1}
+  name Gamma1
+  xpos 462
+  ypos 1690
+ }
+ Add {
+  channels rgb
+  value -1
+  name Add1
+  xpos 462
+  ypos 1773
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output rgb
+  name Merge10
+  xpos 462
+  ypos 1850
+ }
+ Remove {
+  operation keep
+  channels rgb
+  name Remove2
+  xpos 462
+  ypos 1925
+ }
+ Multiply {
+  channels rgb
+  value {{parent.mix}}
+  name Multiply12
+  label mix
+  xpos 462
+  ypos 2000
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge11
+  xpos 462
+  ypos 2092
+  disable {{parent.glow_only}}
+ }
+ Dot {
+  name Dot25
+  tile_color 0x4b5ec600
+  xpos 496
+  ypos 2185
+ }
+push $N18b7b970
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  xpos 0
+  ypos 2163
+ }
+ Crop {
+  box {{"- width * (parent.overscan / 100) / 2"} {"- height * (parent.overscan / 100 ) / 2"} {"width + (width * (parent.overscan / 100) / 2)"} {"height + (height * (parent.overscan / 100) / 2)"}}
+  name Crop1
+  xpos 0
+  ypos 2284
+  disable {{!parent.crop}}
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 2372
+ }
+end_group

@@ -1,0 +1,59 @@
+set cut_paste_input [stack 0]
+version 12.2 v11
+push $cut_paste_input
+Reformat {
+ format "1920 1080 0 0 1920 1080 1 HD_1080"
+ name Reformat7
+ selected true
+ xpos 3524
+ ypos -2710
+}
+Expression {
+ expr0 (x+0.5)/width
+ expr1 (y+0.5)/height
+ channel2 none
+ name Expression1
+ label linear_st
+ selected true
+ xpos 3524
+ ypos -2657
+}
+Expression {
+ expr0 "r * (2*PI)"
+ expr1 "(g * PI) - (PI/2)"
+ channel2 none
+ name Expression2
+ label latLong_coordinates
+ selected true
+ xpos 3524
+ ypos -2608
+}
+Expression {
+ expr0 "cos(g) * cos(r)"
+ expr1 sin(g)
+ expr2 "sin(r) * cos(g)"
+ name Expression3
+ label unitSphere_coordinates
+ selected true
+ xpos 3524
+ ypos -2554
+}
+Expression {
+ expr0 "b > 0 ? atan2(b,r) :  (2 * pi) + atan2(b,r)"
+ expr1 asin(g)
+ expr2 0
+ name Expression4
+ label unitSphere_to_latLong
+ selected true
+ xpos 3524
+ ypos -2492
+}
+Expression {
+ expr0 "r / (2*PI)"
+ expr1 "(g + (PI/2)) / PI"
+ name Expression5
+ label latLong_to_st
+ selected true
+ xpos 3524
+ ypos -2430
+}

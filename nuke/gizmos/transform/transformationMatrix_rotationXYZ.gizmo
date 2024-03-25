@@ -1,0 +1,45 @@
+set cut_paste_input [stack 0]
+version 12.2 v11
+push $cut_paste_input
+ColorMatrix {
+ matrix {
+     {{0} {1} {0}}
+     {{0} {cos(radians(this.knob.rotation))} {-sin(radians(this.knob.rotation))}}
+     {{0} {sin(radians(this.knob.rotation))} {cos(radians(this.knob.rotation))}}
+   }
+ name ColorMatrix1
+ label x_rotation
+ selected true
+ xpos -1976
+ ypos -2735
+ addUserKnob {20 User}
+ addUserKnob {7 rotation R -180 180}
+}
+ColorMatrix {
+ matrix {
+     {{cos(radians(this.knob.rotation))} {-sin(radians(this.knob.rotation))} {0}}
+     {{sin(radians(this.knob.rotation))} {cos(radians(this.knob.rotation))} {0}}
+     {{0} {0} {1}}
+   }
+ name ColorMatrix3
+ label z_rotation
+ selected true
+ xpos -1976
+ ypos -2680
+ addUserKnob {20 User}
+ addUserKnob {7 rotation R -180 180}
+}
+ColorMatrix {
+ matrix {
+     {{cos(radians(this.knob.rotation))} {0} {-sin(radians(this.knob.rotation))}}
+     {{0} {1} {0}}
+     {{-sin(radians(this.knob.rotation))} {0} {cos(radians(this.knob.rotation))}}
+   }
+ name ColorMatrix2
+ label y_rotation
+ selected true
+ xpos -1976
+ ypos -2626
+ addUserKnob {20 User}
+ addUserKnob {7 rotation R -180 180}
+}
